@@ -1,0 +1,17 @@
+[package]
+name = "touying-theme-ysu"
+version = "0.1.0"
+entrypoint = "lib.typ"
+compiler = "0.14.0"
+authors = ["bahayonghang <https://github.com/bahayonghang>"]
+license = "MIT"
+description = "A Yanshan University Touying slide theme and template for Typst."
+repository = "https://github.com/bahayonghang/touying-theme-ysu"
+keywords = ["slides", "presentation", "touying", "beamer", "ysu", "yanshan-university"]
+categories = ["presentation"]
+exclude = ["examples", "docs", ".git", ".github"]
+
+[template]
+path = "template"
+entrypoint = "main.typ"
+thumbnail = "thumbnail.png"

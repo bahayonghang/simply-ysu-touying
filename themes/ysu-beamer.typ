@@ -436,6 +436,7 @@
         set text(
           size: 22pt,
           font: (
+            "Times New Roman",
             "KaiTi",
             "STKaiti",
             "LXGW WenKai",
