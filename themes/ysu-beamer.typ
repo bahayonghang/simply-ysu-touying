@@ -18,6 +18,8 @@
     str(it)
   } else if it.has("text") { it.text } else if it.has("children") {
     it.children.map(_plain).join()
+  } else if it.func() == math.equation { "$" + _plain(it.body) + "$" } else if it.func() == math.attach {
+    _plain(it.base) + if it.has("b") { "_" + _plain(it.b) } else { "" } + if it.has("t") { "^" + _plain(it.t) } else { "" }
   } else if it.has("body") { _plain(it.body) } else if it.func() == linebreak {
     " "
   } else if it.func() == parbreak { "\n\n" } else if it.func() == [ ].func() { " " } else { "" }
@@ -139,9 +141,11 @@ ote)
 
 /// Notes of the slide that just ended: the note bodies after the previous
 /// `<ysu-note-tail>`, on the slide's last page (subslides repeat them).
-/// Emits the `<ysu-note>` export record (frame, page, title, chapter, plain
-/// text), followed by the note bodies when `render` is set.
-#let _note-record(title, render: true) = {
+/// Emits the `<ysu-note>` export record (frame, page, kind, title, sub,
+/// chapter-no, chapter, plain text), followed by the note bodies when
+/// `render` is set. `kind` is "cover", "outline", "opener", "slide" or
+/// "ending".
+#let _note-record(kind, title, render: true) = {
   let prev = query(selector(<ysu-note-tail>).before(here()))
   let sel = selector(<ysu-note-body>).before(here())
   let sel = if prev.len() > 0 { sel.after(prev.last().location()) } else { sel }
@@ -152,10 +156,14 @@ ote)
     let hs = query(selector(heading.where(level: 1)).or(heading.where(level: 2)).before(here()))
     let chapters = query(selector(heading.where(level: 1)).before(here()))
     let title = if title != auto { _plain(title) } else if hs.len() > 0 { _plain(hs.last().body) } else { none }
+    let subs = query(<ysu-sub>).filter(m => m.location().page() == p)
     [#metadata((
         frame: _frame-counter.get().first(),
         page: p,
+        kind: kind,
         title: title,
+        sub: if subs.len() > 0 { _plain(subs.last().value) } else { none },
+        chapter-no: chapters.len(),
         chapter: if chapters.len() > 0 { _plain(chapters.last().body) } else { none },
         text: bodies.map(b => _plain(b).trim()).join("\n\n"),
       )) <ysu-note>]
@@ -167,7 +175,7 @@ ote)
 /// contract: same width, height x 13.5/16, label `notes:N`), otherwise only
 /// the export record. `title` is the frame title of structure slides; `auto`
 /// takes the last level-1 or level-2 heading.
-#let _notes-tail(self, title: auto) = {
+#let _notes-tail(self, kind: "slide", title: auto) = {
   _frame-counter.step()
   if self.store.notes {
     let w = self.page.width
@@ -187,19 +195,19 @@ ote)
       #set text(size: 18pt, fill: rgb("#E6DFD8"))
       #set par(justify: false, first-line-indent: 0pt, leading: 6pt, spacing: 0.4em)
       #show strong: set text(fill: rgb("#FAF9F5"))
-      #context _note-record(title)
+      #context _note-record(kind, title)
       #metadata(none) <ysu-note-tail>
     ]
   } else {
-    context _note-record(title, render: false)
+    context _note-record(kind, title, render: false)
     [#metadata(none) <ysu-note-tail>]
   }
 }
 
 /// `touying-slide` followed by the notes tail.
-#let _emit(self, title: auto, ..args) = {
+#let _emit(self, kind: "slide", title: auto, ..args) = {
   touying-slide(self: self, ..args)
-  _notes-tail(self, title: title)
+  _notes-tail(self, kind: kind, title: title)
 }
 
 // ---------------------------------------------------------------------------
@@ -447,7 +455,7 @@ ote)
       Yanshan University#if en != none [#h(0.5em)·#h(0.5em)#en]
     ])))
   }
-  _emit(self, title: info.title, body + _note-param(note))
+  _emit(self, kind: "cover", title: info.title, body + _note-param(note))
 })
 
 /// Overall table of contents. `groups` highlights consecutive core chapters:
@@ -526,7 +534,7 @@ ote)
       }
     }
   }
-  _emit(self, title: title, body + _note-param(note))
+  _emit(self, kind: "outline", title: title, body + _note-param(note))
 })
 
 /// Chapter opener, drawn for each `= 标题`. `chapter-opener(...)` right after
@@ -647,7 +655,7 @@ ote)
       _at(x, 8.175cm, text(size: 5.5pt, fill: fg, weight: weight, [#_two(i)#h(0.5em)#_nav-label(self, i, full: true)]))
     }
   }
-  _emit(self, config: config, slide-body + body)
+  _emit(self, kind: "opener", config: config, slide-body + body)
 })
 
 /// Closing page. With `recap` (three `(title:, chapter:, icon:, body:,
@@ -719,7 +727,7 @@ ote)
       _at(W - 0.9cm, 8.3cm, anchor: "se", _base(text(size: 9pt, fill: ysu-ink, utils.display-info-date(self))))
     }
   }
-  _emit(self, title: title, slide-body + _note-param(note))
+  _emit(self, kind: "ending", title: title, slide-body + _note-param(note))
 })
 
 // ---------------------------------------------------------------------------
