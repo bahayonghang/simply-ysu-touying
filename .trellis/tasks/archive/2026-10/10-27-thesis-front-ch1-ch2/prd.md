@@ -36,10 +36,10 @@
 
 ## Acceptance Criteria
 
-- [ ] `python -I examples/beamer-thesis/sync-assets.py` 成功，无缺失。
-- [ ] `typst compile --root . examples/beamer-thesis/main.typ` 生成 18 页（本批完成时）。
-- [ ] 备注版 36 页，`examples/check-page-labels.py --expect-notes` 通过。
-- [ ] P01–P18 目视对照记录写入 `research/visual-diff.md`，无未解释的明显偏差。
-- [ ] `export-speech.py` 输出与原稿 `speech.md` 前 18 页一致。
-- [ ] 本批编译耗时记录。
-- [ ] `git status` 中 `examples/beamer-thesis/` 不出现（已被忽略）。
+- [x] `python -I examples/beamer-thesis/sync-assets.py` 成功，无缺失。
+- [x] `typst compile --root . examples/beamer-thesis/main.typ` 生成 18 页（本批完成时）。实际 23 页：另含第 3–7 章占位扉页 5 页，见 research/deviations.md。
+- [x] 备注版 36 页（实际 46 页，原因同上），`examples/check-page-labels.py --expect-notes` 通过。
+- [x] P01–P18 目视对照记录写入 `research/visual-diff.md`，无未解释的明显偏差。
+- [x] `export-speech.py` 输出与原稿 `speech.md` 前 18 页一致。
+- [x] 本批编译耗时记录（约 0.7 s，见 research/visual-diff.md）。
+- [x] `git status` 中 `examples/beamer-thesis/` 不出现（已被忽略）。
