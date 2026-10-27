@@ -26,10 +26,10 @@
 
 ## 最终集成复核（父任务收尾）
 
-- [ ] 六个子任务均已归档或状态 completed。
-- [ ] PRD 跨子任务验收项逐条勾选，附命令输出摘要。
-- [ ] 记录 88 页全量编译耗时（冷编译、增量编译各一次）。
-- [ ] `.trellis/spec/theme/*`、`.trellis/spec/package/*`、`AGENTS.md` 已反映新主题（由 release 子任务执行，父任务核对）。
+- [x] 六个子任务均已归档或状态 completed。
+- [x] PRD 跨子任务验收项逐条勾选，附命令输出摘要。
+- [x] 记录 88 页全量编译耗时（冷编译、增量编译各一次）。
+- [x] `.trellis/spec/theme/*`、`.trellis/spec/package/*`、`AGENTS.md` 已反映新主题（由 release 子任务执行，父任务核对）。
 
 ## 回滚点
 

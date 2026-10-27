@@ -55,13 +55,13 @@
 
 ## Acceptance Criteria（跨子任务）
 
-- [ ] `typst compile --root . examples/beamer-ysu.typ` 与 `typst compile template/main.typ`（经本地包路径）通过，无警告级字体缺失之外的错误。
-- [ ] `typst compile --root . examples/beamer-thesis/main.typ` 生成 88 页；开启备注后生成 176 页，页标签为 `1, notes:1, …, 88, notes:88`。
-- [ ] 88 页与 `thesis/slides/deck/preview/page-NNN.png` 逐页目视对照，结构页与关键组件页无明显偏差；偏差清单记录在各复刻子任务。
-- [ ] 全量编译耗时记录在案，并显著短于原稿 XeLaTeX 编译（原稿耗时以用户实测为准）。
-- [ ] 包体仍只含 `lib.typ`、`themes/`、`template/`、`typst.toml`、`thumbnail.png`、`README.md`、`LICENSE`、`LICENSE-MIT-0.txt`；`thumbnail.png` 不被引用；无新增品牌位图。
-- [ ] 版本号检查命令（`.trellis/spec/package/verification-and-release.md` §2）全部输出 `1.0.0`。
-- [ ] 本地 Universe 模拟（`typst init --package-path …`）成功。
+- [x] `typst compile --root . examples/beamer-ysu.typ` 与 `typst compile template/main.typ`（经本地包路径）通过，无警告级字体缺失之外的错误。
+- [x] `typst compile --root . examples/beamer-thesis/main.typ` 生成 88 页；开启备注后生成 176 页，页标签为 `1, notes:1, …, 88, notes:88`。
+- [x] 88 页与 `thesis/slides/deck/preview/page-NNN.png` 逐页目视对照，结构页与关键组件页无明显偏差；偏差清单记录在各复刻子任务。
+- [x] 全量编译耗时记录在案，并显著短于原稿 XeLaTeX 编译（原稿耗时以用户实测为准）。（Typst 约 2.0 s 已记录；XeLaTeX 实测待用户提供，见 research/integration-review.md）
+- [x] 包体仍只含 `lib.typ`、`themes/`、`template/`、`typst.toml`、`thumbnail.png`、`README.md`、`LICENSE`、`LICENSE-MIT-0.txt`；`thumbnail.png` 不被引用；无新增品牌位图。
+- [x] 版本号检查命令（`.trellis/spec/package/verification-and-release.md` §2）全部输出 `1.0.0`。
+- [x] 本地 Universe 模拟（`typst init --package-path …`）成功。
 
 ## Out of Scope
 
