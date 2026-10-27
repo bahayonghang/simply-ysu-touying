@@ -72,3 +72,25 @@ spike 验证方案 A（包装器后追加顶层 page）可行；实现 #note、�
 ### Status
 
 [OK] **Completed**
+
+
+## Session 4: 复刻一：封面目录与第 1-2 章
+<!-- trellis-session: v=2 fp=092cb2ade6342726 -->
+
+**Date**: 2026-10-27
+**Task**: 复刻一：封面目录与第 1-2 章
+**Branch**: `dev`
+
+### Summary
+
+beamer-thesis 复刻 P01–P18（问题图、路线图、变量表、公式映射等版式），新增 export-speech.py 与 README；<ysu-note> 记录增加 kind/sub/chapter-no，_plain 支持公式；讲稿前 18 页与原稿一致，备注版通过页标签校验
+
+### Git Commits
+
+| Hash | Message |
+|------|---------|
+| `4d87960` | feat(theme): 🧾 备注导出记录增加页类型、小节与章号 |
+
+### Status
+
+[OK] **Completed**
