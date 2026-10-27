@@ -7,14 +7,14 @@
 
 ## 步骤
 
-1. [ ] 版本号替换（PRD R1 列表），跑 grep 校验。
-2. [ ] README.md / README.zh.md 按 design §2 重写；`docs/screenshots/` 重新截图。
-3. [ ] `docs/typst-packages-pr-structure.md` 更新目录、命令与模拟脚本。
-4. [ ] 重生成 `examples/beamer-ysu.pdf`、`template/main.pdf`、`thumbnail.png`。
-5. [ ] 更新 `.trellis/spec/theme/*`、`.trellis/spec/package/*`、`AGENTS.md`（可借助 `trellis-update-spec`）。
-6. [ ] 本地 Universe 模拟。
-7. [ ] 包边界与 thumbnail 引用检查。
-8. [ ] trellis-check 全量检查；父任务最终集成复核。
+1. [x] 版本号替换（PRD R1 列表），跑 grep 校验。
+2. [x] README.md / README.zh.md 按 design §2 重写；`docs/screenshots/` 重新截图。
+3. [x] `docs/typst-packages-pr-structure.md` 更新目录、命令与模拟脚本。
+4. [x] 重生成 `examples/beamer-ysu.pdf`、`template/main.pdf`、`thumbnail.png`。
+5. [x] 更新 `.trellis/spec/theme/*`、`.trellis/spec/package/*`、`AGENTS.md`（可借助 `trellis-update-spec`）。
+6. [x] 本地 Universe 模拟。
+7. [x] 包边界与 thumbnail 引用检查。
+8. [x] trellis-check 全量检查；父任务最终集成复核。
 
 ## 验证命令
 
