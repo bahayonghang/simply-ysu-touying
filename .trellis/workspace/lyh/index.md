@@ -8,7 +8,7 @@
 
 <!-- @@@auto:current-status -->
 - **Active File**: `journal-1.md`
-- **Total Sessions**: 4
+- **Total Sessions**: 5
 - **Last Active**: 2026-10-27
 <!-- @@@/auto:current-status -->
 
@@ -19,7 +19,7 @@
 <!-- @@@auto:active-documents -->
 | File | Lines | Status |
 |------|-------|--------|
-| `journal-1.md` | ~96 | Active |
+| `journal-1.md` | ~135 | Active |
 <!-- @@@/auto:active-documents -->
 
 ---
@@ -29,6 +29,7 @@
 <!-- @@@auto:session-history -->
 | # | Date | Title | Commits | Branch |
 |---|------|-------|---------|--------|
+| 5 | 2026-10-27 | 复刻二：第 3-4 章（P19–P51） | `eab0dbc`, `f2be06a`, `be3e443` | `dev` |
 | 4 | 2026-10-27 | 复刻一：封面目录与第 1-2 章 | `4d87960` | `dev` |
 | 3 | 2026-10-27 | 演讲备注：FerroStage 独立备注页 | `7b3132e` | `dev` |
 | 2 | 2026-10-27 | 主题核心：答辩版式替换 ysu-theme | `61a63a8`, `c26aed9` | `dev` |
