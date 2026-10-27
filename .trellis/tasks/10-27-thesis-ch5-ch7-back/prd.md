@@ -22,9 +22,9 @@
 
 ## Acceptance Criteria
 
-- [ ] 全稿编译 88 页；备注版 176 页，页标签 `1, notes:1, …, 88, notes:88`。
-- [ ] `export-speech.py` 输出与原稿 `deck-notes/speech.md` 全文一致（空白差异除外），头部“共 88 页”。
-- [ ] P52–P88 目视对照 + 三批汇总的 `research/visual-diff.md`。
-- [ ] 公式核对清单补全（本批）。
-- [ ] 冷编译与增量编译耗时记录；与用户提供的 XeLaTeX 编译耗时对比（未提供则只记录 Typst 侧）。
-- [ ] 回归 `beamer-ysu.typ`。
+- [x] 全稿编译 88 页；备注版 176 页，页标签 `1, notes:1, …, 88, notes:88`。
+- [x] `export-speech.py` 输出与原稿 `deck-notes/speech.md` 全文一致（空白差异除外），头部“共 88 页”。
+- [x] P52–P88 目视对照 + 三批汇总的 `research/visual-diff.md`。
+- [x] 公式核对清单补全（本批）。
+- [x] 冷编译与增量编译耗时记录；与用户提供的 XeLaTeX 编译耗时对比（未提供则只记录 Typst 侧）。
+- [x] 回归 `beamer-ysu.typ`。
