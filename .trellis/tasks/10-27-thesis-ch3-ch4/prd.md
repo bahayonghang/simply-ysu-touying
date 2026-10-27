@@ -27,8 +27,8 @@
 
 ## Acceptance Criteria
 
-- [ ] `sync-assets.py` 无缺失；全稿编译页数 = 51。
-- [ ] 备注版 102 页，页标签检查通过。
-- [ ] P19–P51 目视对照记录写入 `research/visual-diff.md`。
-- [ ] 公式逐式核对清单（页号、编号、核对结果）写入 `research/equations-check.md`。
-- [ ] 回归 G1（`beamer-ysu.typ`）通过。
+- [x] `sync-assets.py` 无缺失；全稿编译页数 = 51。（实际 54 页：P01–P51 加第 5–7 章三页占位扉页，见 research/deviations.md）
+- [x] 备注版 102 页，页标签检查通过。（实际 108 页，同上；`check-page-labels.py --expect-notes` 通过）
+- [x] P19–P51 目视对照记录写入 `research/visual-diff.md`。
+- [x] 公式逐式核对清单（页号、编号、核对结果）写入 `research/equations-check.md`。
+- [x] 回归 G1（`beamer-ysu.typ`）通过。
