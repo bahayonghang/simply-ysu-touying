@@ -13,7 +13,7 @@
 name = "simply-ysu-touying"
 version = "1.0.0"
 entrypoint = "lib.typ"
-compiler = "0.14.0"
+compiler = "0.15.1"
 authors = ["Geekyhang <@bahayonghang>"]
 license = "MIT AND MIT-0"
 description = "Yanshan University defense-style slides for Touying, with speaker notes."
@@ -37,7 +37,7 @@ thumbnail = "thumbnail.png"
 
 ### Critical Manifest Rules
 
-1. **`compiler` baseline**: Kept at `0.14.0` (or lowest verified Typst release support).
+1. **`compiler` baseline**: Kept at `0.15.1` (current verified Typst release; raise only after compiling on that release).
 2. **`license` field**: Must be an exact valid SPDX license expression. The repo uses `"MIT AND MIT-0"`.
 3. **`exclude` rule**:
    ```toml

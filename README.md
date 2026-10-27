@@ -10,7 +10,7 @@ A Yanshan University slide theme for [Touying](https://touying-typ.github.io/tou
 
 ## Requirements
 
-- Typst `0.14.x` or `0.15.x`
+- Typst `0.15.1` or later
 - `@preview/touying:0.6.3` (imported by the package)
 
 ## Quick start

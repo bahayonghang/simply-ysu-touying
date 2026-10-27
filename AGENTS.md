@@ -33,7 +33,7 @@ Managed by Trellis. Edits outside this block are preserved; edits inside may be 
 
 ## 1. 技术栈与环境规范
 
-- **排版引擎**：Typst `0.14.x` / `0.15.x`（`typst.toml` 编译器基线为 `0.14.0`）
+- **排版引擎**：Typst `0.15.1` 及以上（`typst.toml` 编译器基线为 `0.15.1`）
 - **核心依赖包**：`@preview/touying:0.6.3`（唯一依赖；1.0 起不再使用 `cuti`，粗体用字体的真实字重）
 - **字体规范**（`themes/tokens.typ`）：
   - 西文/数字：`Source Sans 3` → `Arial`
