@@ -133,3 +133,42 @@ beamer-thesis 复刻 P01–P18（问题图、路线图、变量表、公式映�
 ### Next Steps
 
 - 10-27-thesis-ch5-ch7-back：第 5-7 章与封底，期望 88 / 176 页
+
+
+## Session 6: 复刻三：第 5-7 章与致谢
+<!-- trellis-session: v=2 fp=c1ea79e41bd8ef18 -->
+
+**Date**: 2026-10-27
+**Task**: 复刻三：第 5-7 章与致谢
+**Branch**: `dev`
+
+### Summary
+
+完成 P52–P88 复刻，88 页全量验收通过，任务归档
+
+### Main Changes
+
+- 第 5 章 21 帧：版式按 tex 字号回调约 1 pt，修复 8 页溢出
+- 第 6 章 11 帧：截图窗框页（band-page）、任务协同页、平台小结；新增 crop() 裁切
+- 第 7 章 4 帧与致谢页：创新点、展望、成果；致谢沿用主题 ending-slide(recap:)，无主题改动
+
+### Git Commits
+
+| Hash | Message |
+|------|---------|
+| `d5a3532` | docs(task): 📝 记录第 5-7 章与致谢复刻的对照、偏离与公式核对 |
+| `b6ca8b3` | chore(task): archive 10-27-thesis-ch5-ch7-back |
+
+### Testing
+
+- [OK] 88 页 / 备注版 176 页，check-page-labels 通过
+- [OK] cmp_speech 88/88 页一致，头部共 88 页、口播约 8438 字
+- [OK] beamer-ysu 回归通过；编译约 2.0 s
+
+### Status
+
+[OK] **Completed**
+
+### Next Steps
+
+- release-1-0-0
