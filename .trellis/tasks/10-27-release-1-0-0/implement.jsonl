@@ -1,0 +1,5 @@
+{"file": ".trellis/spec/theme/index.md", "reason": "Theme layer index and core principles"}
+{"file": ".trellis/spec/package/packaging-guidelines.md", "reason": "typst.toml and exclude rules"}
+{"file": ".trellis/spec/package/assets-and-licensing.md", "reason": "Asset and license boundary for release"}
+{"file": ".trellis/spec/package/index.md", "reason": "Package layer index"}
+{"file": ".trellis/spec/package/verification-and-release.md", "reason": "Version sync checklist and Universe simulation"}
