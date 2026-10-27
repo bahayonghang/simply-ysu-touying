@@ -39,9 +39,9 @@ Typst 的 show 规则和 `page.foreground`/`background` 都不能凭空插入新
 
 ## 5. 备注页排版
 
-- 字号：原稿 18pt 对 16cm 宽纸面；Typst 页宽 841.89pt → 18 × 1.856 ≈ 33.4pt。
+- 字号：theme-core 起页面即字面 16cm×9cm（4:3 为 12cm×9cm），备注页宽 = 内容页宽、高 = 宽 × 13.5/16，原稿 18pt/24pt 与 0.5cm 留白直接沿用，无需换算。
 - `show strong: set text(fill: rgb("#FAF9F5"))`，正文 `rgb("#E6DFD8")`。
-- `set par(first-line-indent: 0pt, spacing: 0.4em, leading: (24-18)/18 em 换算)`, `justify: false`。
+- `set par(first-line-indent: 0pt, spacing: 0.4em, leading: 6pt)`（24pt 行距 − 18pt 字号）, `justify: false`。
 - 数学：继承正文字体颜色。
 
 ## 6. 页标签检查脚本

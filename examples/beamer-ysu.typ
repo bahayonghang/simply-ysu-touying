@@ -4,6 +4,8 @@
 #show: ysu-theme.with(
   aspect-ratio: sys.inputs.at("ratio", default: "16-9"),
   nav-labels: ("概览", "结构", "组件", "图表", "使用"),
+  // `typst compile --input notes=on` adds a notes page after every slide.
+  notes: sys.inputs.at("notes", default: "off") == "on",
   config-info(
     title: [燕山大学 Touying 演示模板\ 答辩版式示例],
     short-title: [YSU Touying 模板],
@@ -20,13 +22,13 @@
 // Icons are plain content; any icon font or symbol works.
 #let ic(s) = text(font: "DejaVu Sans Mono", s)
 
-#title-slide(research-line: (
+#title-slide(note: [各位老师好，我汇报的题目是*燕山大学 Touying 演示模板*。], research-line: (
   (no: "01", icon: ic("◉"), label: [结构页]),
   (no: "02", icon: ic("▤"), label: [内容组件]),
   (no: "03", icon: ic("↗"), label: [图表公式]),
 ))
 
-#outline-slide(groups: (
+#outline-slide(note: [汇报分五部分，第 2 到 4 章是重点。], groups: (
   (from: 2, to: 4, tags: ([结构], [组件], [图表]), icons: (ic("◉"), ic("▤"), ic("↗"))),
 ))
 
@@ -37,6 +39,7 @@
   icon: ic("▣"),
   bridge: [输入：Typst 源文件；输出：与 LaTeX 答辩稿#hl[同一版式]的 PDF],
 )
+#note[第一部分介绍主题的设计目标。]
 
 == 1.1 设计目标
 #takeaway[以答辩稿版式为基准，统一页眉、页脚与组件语言]
@@ -45,6 +48,12 @@
 - 页脚：作者与阶段、章节导航、页码
 - 结构页：封面、目录、章节扉页、致谢
 - 组件：标题框、分组框、结论条、编号点、数值卡等
+
+#note[
+  本页给出四个设计目标。*页眉*与*页脚*沿用答辩稿的版式。
+
+  第二段：备注支持行内公式 $y = f(x) + 5%$ 与多段文字。
+]
 
 == 1.2 页眉逻辑
 #sub[1.2.1 有结论句时]
@@ -65,6 +74,7 @@
   - 逐条呈现要点
   #pause
   - 与多栏、表格、公式混用
+  #note[分步页的备注页只跟在最后一个子页之后。]
 ][
   #reading-card(title: [答辩建议])[
     正式答辩稿建议一页一帧、不用 `#pause`，以便演讲者视图的备注页与幻灯片一一对应。
@@ -240,7 +250,7 @@
   paper-box("Zhang S, Li S. An example paper title. Journal of Examples, 2026, 1(1): 1-10. DOI: 10.0000/example"),
 )
 
-#ending-slide(recap: (
+#ending-slide(note: [以上是我的汇报，敬请各位老师批评指正。], recap: (
   (title: [结构页], chapter: [第 2 章], icon: ic("◉"), body: [封面、目录、扉页与致谢由元数据与标题自动生成], tags: ([title-slide], [outline-slide])),
   (title: [内容组件], chapter: [第 3 章], icon: ic("▤"), body: [标题框、分组框、结论条、编号点与数值卡], tags: ([group-box], [conclude], [kpi])),
   (title: [图表公式], chapter: [第 4 章], icon: ic("↗"), body: [结果表、公式块与截图窗统一呈现实验结果], tags: ([result-table], [eq-block])),

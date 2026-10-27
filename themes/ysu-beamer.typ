@@ -20,7 +20,7 @@
     it.children.map(_plain).join()
   } else if it.has("body") { _plain(it.body) } else if it.func() == linebreak {
     " "
-  } else if it.func() == [ ].func() { " " } else { "" }
+  } else if it.func() == parbreak { "\n\n" } else if it.func() == [ ].func() { " " } else { "" }
 }
 
 #let _two(n) = if n < 10 { "0" + str(n) } else { str(n) }
@@ -118,6 +118,89 @@
     outline: outline,
     bridge: bridge,
   )) <ysu-opener>]
+
+// ---------------------------------------------------------------------------
+// Speaker notes (原稿 deck-notes 的 
+ote)
+// ---------------------------------------------------------------------------
+
+/// Speaker note of the current slide. Write it anywhere in the slide body;
+/// several notes on one slide join as paragraphs. The note goes to pdfpc,
+/// and with `ysu-theme(notes: true)` to a notes page after the slide.
+#let note(body) = {
+  speaker-note(body)
+  [#metadata(body) <ysu-note-body>]
+}
+
+#let _note-param(body) = if body == none { none } else { note(body) }
+
+// Physical frame number: one per slide, as the LaTeX frames are counted.
+#let _frame-counter = counter("ysu-frame")
+
+/// Notes of the slide that just ended: the note bodies after the previous
+/// `<ysu-note-tail>`, on the slide's last page (subslides repeat them).
+/// Emits the `<ysu-note>` export record (frame, page, title, chapter, plain
+/// text), followed by the note bodies when `render` is set.
+#let _note-record(title, render: true) = {
+  let prev = query(selector(<ysu-note-tail>).before(here()))
+  let sel = selector(<ysu-note-body>).before(here())
+  let sel = if prev.len() > 0 { sel.after(prev.last().location()) } else { sel }
+  let marks = query(sel)
+  let p = calc.max(0, ..marks.map(m => m.location().page()))
+  let bodies = marks.filter(m => m.location().page() == p).map(m => m.value)
+  if bodies.len() > 0 {
+    let hs = query(selector(heading.where(level: 1)).or(heading.where(level: 2)).before(here()))
+    let chapters = query(selector(heading.where(level: 1)).before(here()))
+    let title = if title != auto { _plain(title) } else if hs.len() > 0 { _plain(hs.last().body) } else { none }
+    [#metadata((
+        frame: _frame-counter.get().first(),
+        page: p,
+        title: title,
+        chapter: if chapters.len() > 0 { _plain(chapters.last().body) } else { none },
+        text: bodies.map(b => _plain(b).trim()).join("\n\n"),
+      )) <ysu-note>]
+  }
+  if render { bodies.join(parbreak()) }
+}
+
+/// After each slide: the notes page when notes are on (FerroStage / pympress
+/// contract: same width, height x 13.5/16, label `notes:N`), otherwise only
+/// the export record. `title` is the frame title of structure slides; `auto`
+/// takes the last level-1 or level-2 heading.
+#let _notes-tail(self, title: auto) = {
+  _frame-counter.step()
+  if self.store.notes {
+    let w = self.page.width
+    page(
+      width: w,
+      height: w * 13.5 / 16,
+      margin: (x: 0.5cm, y: 0.5cm),
+      fill: rgb("#252320"),
+      numbering: "notes:1",
+      header: none,
+      footer: none,
+      background: none,
+      foreground: none,
+    )[
+      // The notes page shares the label number of the slide before it.
+      #counter(page).update(n => n - 1)
+      #set text(size: 18pt, fill: rgb("#E6DFD8"))
+      #set par(justify: false, first-line-indent: 0pt, leading: 6pt, spacing: 0.4em)
+      #show strong: set text(fill: rgb("#FAF9F5"))
+      #context _note-record(title)
+      #metadata(none) <ysu-note-tail>
+    ]
+  } else {
+    context _note-record(title, render: false)
+    [#metadata(none) <ysu-note-tail>]
+  }
+}
+
+/// `touying-slide` followed by the notes tail.
+#let _emit(self, title: auto, ..args) = {
+  touying-slide(self: self, ..args)
+  _notes-tail(self, title: title)
+}
 
 // ---------------------------------------------------------------------------
 // Content page header and footer
@@ -274,8 +357,8 @@
     show: setting
     body
   }
-  touying-slide(
-    self: self,
+  _emit(
+    self,
     config: config,
     repeat: repeat,
     setting: new-setting,
@@ -292,7 +375,7 @@
 
 /// Cover. `research-line` lists the research threads shown on the navy
 /// column: `((no: "03", icon: none, label: [状态感知]), ...)`.
-#let title-slide(config: (:), research-line: (), ..args) = touying-slide-wrapper(self => {
+#let title-slide(config: (:), research-line: (), note: none, ..args) = touying-slide-wrapper(self => {
   let self = _plain-page(self, config)
   let info = self.info + args.named()
   let body = context {
@@ -364,12 +447,12 @@
       Yanshan University#if en != none [#h(0.5em)·#h(0.5em)#en]
     ])))
   }
-  touying-slide(self: self, body)
+  _emit(self, title: info.title, body + _note-param(note))
 })
 
 /// Overall table of contents. `groups` highlights consecutive core chapters:
 /// `((from: 3, to: 5, tags: ([..], ..), icons: (..)),)`.
-#let outline-slide(config: (:), title: [目#h(0.2em)录], groups: ()) = touying-slide-wrapper(self => {
+#let outline-slide(config: (:), title: [目#h(0.2em)录], groups: (), note: none) = touying-slide-wrapper(self => {
   let self = _plain-page(self, config)
   let body = context {
     let W = page.width
@@ -443,7 +526,7 @@
       }
     }
   }
-  touying-slide(self: self, body)
+  _emit(self, title: title, body + _note-param(note))
 })
 
 /// Chapter opener, drawn for each `= 标题`. `chapter-opener(...)` right after
@@ -563,9 +646,8 @@
       place(top + left, dx: x, dy: 8.025cm, rect(width: pitch - 0.1cm, height: 0.05cm, fill: bar))
       _at(x, 8.175cm, text(size: 5.5pt, fill: fg, weight: weight, [#_two(i)#h(0.5em)#_nav-label(self, i, full: true)]))
     }
-    body
   }
-  touying-slide(self: self, config: config, slide-body)
+  _emit(self, config: config, slide-body + body)
 })
 
 /// Closing page. With `recap` (three `(title:, chapter:, icon:, body:,
@@ -576,6 +658,7 @@
   title: [敬请各位老师批评指正],
   kicker: [THANK YOU],
   recap: (),
+  note: none,
   ..bodies,
 ) = touying-slide-wrapper(self => {
   let self = _plain-page(self, config)
@@ -636,7 +719,7 @@
       _at(W - 0.9cm, 8.3cm, anchor: "se", _base(text(size: 9pt, fill: ysu-ink, utils.display-info-date(self))))
     }
   }
-  touying-slide(self: self, slide-body)
+  _emit(self, title: title, slide-body + _note-param(note))
 })
 
 // ---------------------------------------------------------------------------
@@ -653,12 +736,14 @@
 /// - nav-full-labels: labels of the opener progress row; `auto` uses
 ///   `nav-labels`.
 /// - font: `(latin: (..), cjk: (..))` font families.
+/// - notes: add a notes page after every slide (see `note`).
 #let ysu-theme(
   aspect-ratio: "16-9",
   align: horizon,
   nav-labels: auto,
   nav-full-labels: auto,
   font: (latin: font-latin, cjk: font-cjk),
+  notes: false,
   ..args,
   body,
 ) = {
@@ -673,6 +758,8 @@
       header-ascent: 0pt,
       footer-descent: 0pt,
       margin: (top: 1.75cm, bottom: 0.8cm, x: 1cm),
+      // Page labels pair slides with their notes pages (`N`, `notes:N`).
+      numbering: if notes { "1" } else { none },
     ),
     config-common(
       slide-fn: slide,
@@ -736,6 +823,7 @@
       nav-labels: nav-labels,
       nav-full-labels: nav-full-labels,
       headline-width: width - 2.4cm,
+      notes: notes,
       slide-title: auto,
     ),
     ..args,

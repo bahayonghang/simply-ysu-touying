@@ -123,6 +123,21 @@ Footer: rule, "author · stage", chapter navigation (`_nav-bar`, current chapter
 
 ---
 
+## 5a. Speaker Notes
+
+- `note(body)` = touying `speaker-note(body)` (pdfpc) + `[#metadata(body) <ysu-note-body>]`. Cover, outline and ending take `note:`; opener notes go after `= 标题`.
+- Every slide function ends with `_emit(self, title:, ..args)`, which is `touying-slide(...)` followed by `_notes-tail(self, title:)`. New slide functions must use `_emit`, never `touying-slide` directly.
+- `_notes-tail` steps `_frame-counter` and then:
+  - with `ysu-theme(notes: true)`, appends a top-level `page(...)` (same width, height × 13.5/16, `numbering: "notes:1"`, `counter(page).update(n => n - 1)`);
+  - otherwise emits only a `context`.
+  Both emit the `<ysu-note>` export record (`frame`, `page`, `title`, `chapter`, `text`) and a `<ysu-note-tail>` marker.
+- `notes: true` also sets `numbering: "1"` on content pages, so the PDF labels read `N, notes:N`. touying freezes the page counter across subslides, so subslides share `N`.
+- **Gotcha:** content after a slide, outside its `set page` scope, lands on the *next* page. Collect notes by document order (after the previous `<ysu-note-tail>`, before `here()`), never by `here().page()`. Keep only the largest page among them, since subslides repeat the body.
+- Bodies that touying must parse (for `speaker-note`) must not be inside `context`: pass `drawing + body` to `_emit`.
+- Verify with `python -I examples/check-page-labels.py out.pdf --expect-notes`.
+
+---
+
 ## 6. Anti-patterns
 
 | Anti-pattern | Why | Instead |
