@@ -1,157 +1,112 @@
 # Typography and Style
 
-> Design system, color specifications, and Chinese academic typography conventions for `themes/ysu-beamer.typ`.
+> Design tokens, typography and component conventions of the YSU defense theme. Source of truth: `themes/tokens.typ` and `themes/components.typ`.
+>
+> Status: 1.0.0 draft — the release task does the final review.
 
 ---
 
-## 1. Typography Standards
+## 1. Color Tokens (`tokens.typ`)
 
-Academic presentations require sharp contrast, legible font hierarchy, and proper Chinese punctuation and justification.
+Values follow the LaTeX defense deck (`ysu-defense-modern.sty`, theme v3).
 
-### 1.1 Font Cascade & Sizing
-
-The document baseline is set in `ysu-theme`'s `init` method:
-
-```typ
-set text(
-  size: 22pt,
-  font: (
-    "Times New Roman",
-    "KaiTi",
-    "STKaiti",
-    "LXGW WenKai",
-    "Microsoft YaHei",
-    "Arial",
-  ),
-)
-```
-
-- **English & Numbers**: Prefers `Times New Roman` for academic formality, falling back to `Arial` if specified.
-- **Chinese**: Falls back through Kaiti variants (`KaiTi`, `STKaiti`, `LXGW WenKai`) for clear academic reading, with `Microsoft YaHei` as sans-serif fallback.
-
-### 1.2 Chinese Typesetting Rules
-
-1. **Language tagging**: `set text(lang: "zh")` ensures correct quotation marks (`“”`), full-width punctuation, and hyphenation rules.
-2. **Paragraph justification**: `set par(justify: true)` aligns Chinese character grids across presentation lines.
-3. **Paragraph spacing**: `set block(spacing: 0.8em)` creates clean rhythmic vertical flow.
-
-### 1.3 Chinese Fake Bold (`cuti`)
-
-Traditional Chinese fonts such as KaiTi typically only include a regular weight (400). Standard `weight: "bold"` or `*粗体*` fails to render visibly on many systems without a bold font cut.
-
-The theme integrates `@preview/cuti:0.4.0`:
-
-```typ
-#import "@preview/cuti:0.4.0": show-cn-fakebold
-...
-show: show-cn-fakebold
-show strong: it => text(weight: "bold", it)
-```
-
-**Rule**: All new text components or slides must inherit this show rule. Never override `show strong` with pure color highlighting alone without preserving bold weight.
-
----
-
-## 2. Heading & Caption Styling
-
-- **Level 1 (`= 标题`)**: Generates a full section divider page (`new-section-slide`).
-- **Level 2 (`== 标题`)**: Represents slide titles in content pages; captured in header pills.
-- **Level 3 (`=== 标题`)**: Styled with `self.colors.primary` for subsection emphasis.
-- **Level 4 (`==== 标题`)**: Styled with `self.colors.primary-dark` for sub-clause emphasis.
-- **Figure Caption**: `show figure.caption: set text(size: 0.62em)`.
-- **Table Caption**: Placed on top: `show figure.where(kind: table): set figure.caption(position: top)`.
-- **Footnote**: Set to `size: 0.6em`.
-
----
-
-## 3. Yanshan University Blue Color System
-
-The color palette is registered via `config-colors(...)` in `themes/ysu-beamer.typ` and accessed through `self.colors.<token>`.
-
-### 3.1 Primary Brand Palette (YSU Blue)
-
-| Token | Hex Value | Semantic Usage |
+| Token | Hex | Usage |
 |---|---|---|
-| `primary` | `#2B69C1` | University blue: active borders, section pills, alert text, gradients |
-| `primary-light` | `#78A4E7` | Light border strokes for cards and active outline cards |
-| `primary-lighter` | `#DCE8FA` | Light blue background for active outline items and progress bar inactive fill |
-| `primary-lightest` | `#F6F9FF` | Ultra-light tinted background for `#tblock` body and title metadata boxes |
-| `primary-dark` | `#1F4F94` | Dark blue for `#tblock` headers, top nav bar, and footer author cell |
-| `primary-darker` | `#163A70` | Deep blue for main titles and high-contrast section headers |
-| `primary-darkest` | `#102744` | Darkest blue for title-slide title and section title text |
+| `ysu-navy` | `#1F296A` | Brand color: headline, rules, title bars, `strong`, list markers |
+| `ysu-red` | `#B42318` | Single accent: short header rule, `key`, problem labels, `alert` |
+| `ysu-ink` | `#1B1E2B` | Body text |
+| `ysu-muted` | `#5A6072` | Captions, footer, secondary text |
+| `ysu-tint` | `#F2F4F9` | Box grounds |
+| `ysu-line` | `#D9DCE5` | Hairlines and box borders |
+| `ysu-base` | `#A9B1C9` | Base bar, inactive progress |
+| `ysu-night` | `#0E1433` | Dark structure pages, screen frames |
+| `ysu-night-dot` | `#3A4370` | Screen-frame dots |
+| `ysu-kicker` / `ysu-faint` | white 78% / 55% over navy | Secondary text on navy |
 
-### 3.2 Secondary & Tertiary Accents
+`mix(c, p, base: white)` is xcolor's `c!p!base`. Derive tints with it instead of new hex literals.
 
-| Token | Hex Value | Semantic Usage |
-|---|---|---|
-| `secondary` | `#173A72` | Deep navy: slide number footer background, progress bar fill |
-| `secondary-light` | `#4F78B9` | Medium accent blue |
-| `secondary-lighter` | `#DFE9FA` | Pale secondary wash |
-| `tertiary` | `#4D88D6` | Vibrant cyan-blue for decorative divider gradients |
+Gradients: `grad-head` (title bars), `grad-bar` (conclude bar), `grad-key`, `grad-page` (page pill), `grad-diag` (cover / thanks), `grad-opener` (radial, chapter opener). A radial gradient's last stop must be `100%`.
 
-### 3.3 Neutrals
-
-| Token | Hex Value | Semantic Usage |
-|---|---|---|
-| `neutral-lightest` | `#FFFFFF` | Slide background, pure white text in dark headers/pills |
-| `neutral-lighter` | `#E8EDF6` | Light gray-blue border/separator tone |
-| `neutral-light` | `#A3AEC2` | Subdued borders and secondary hints |
-| `neutral-dark` | `#344760` | Body text secondary tone |
-| `neutral-darker` | `#22344B` | High-contrast body text |
-| `neutral-darkest` | `#162234` | Primary high-contrast body text for cards and metadata boxes |
+`config-colors` mirrors the tokens onto touying's names (`primary`, `secondary`, `neutral-*`), but theme code reads the tokens directly.
 
 ---
 
-## 4. UI Elements & Accents
-
-### 4.1 Card Blocks (`#tblock`)
-
-The signature card component consists of 3 vertical layers:
-1. **Title Header**: `fill: self.colors.primary-dark`, top radius `7pt`, bold white text.
-2. **Gradient Divider**: 4pt height `gradient.linear(self.colors.primary-dark, self.colors.primary-lighter, angle: 90deg)`.
-3. **Content Body**: `fill: self.colors.primary-lightest`, stroke `0.8pt` with `self.colors.primary-light`, bottom radius `7pt`.
-
-### 4.2 List Markers
-
-List markers use a custom radial gradient bullet:
+## 2. Fonts
 
 ```typ
-set list(marker: box(
-  width: 0.55em,
-  place(
-    dy: 0.08em,
-    circle(
-      fill: gradient.radial(self.colors.primary-lightest, self.colors.primary),
-      radius: 0.16em,
-    ),
-  ),
-))
+#let font-latin = ("Source Sans 3", "Arial")
+#let font-cjk = ("Source Han Sans", "Noto Sans SC", "Microsoft YaHei")
 ```
 
-### 4.3 Divider Lines
+- Latin faces are added with `covers: "latin-in-cjk"` (`_font-stack`), so CJK punctuation falls through to the CJK face.
+- Users override with `ysu-theme(font: (latin: …, cjk: …))`.
+- `heavy = 900` for the cover title and opener number (Source Han Sans Heavy). Faces without 900 fall back to bold.
+- `show raw` uses `"DejaVu Sans Mono"` (bundled with Typst) plus the CJK stack.
+- A missing first-choice face gives an "unknown font family" warning, not an error. This is expected on machines without Source Sans 3.
 
-Section headers and outline banners use a consistent 3pt to 4pt horizontal gradient line:
+**No fake bold.** `cuti` was removed in 1.0.0: the CJK stack is sans-serif with real bold weights. Do not reintroduce KaiTi-style fonts that need fake bold.
 
-```typ
-rect(
-  width: 100%,
-  height: 4pt,
-  fill: gradient.linear(self.colors.primary, self.colors.tertiary),
-)
-```
+## 3. Sizes & Rhythm
 
-### 4.4 Watermark (`ysu-watermark.png`)
+| Element | Size |
+|---|---|
+| Base text | 10pt, `leading: 0.75em`, `par.spacing: 0.9em` |
+| Lists at full frame width | 12pt, item gap 0.9em (via `layout`; lists inside columns keep 10pt) |
+| Headline | 14pt bold navy |
+| Kicker / breadcrumb | 6.5pt |
+| Captions / equation numbers | 8pt muted |
+| Footnotes | 7pt |
 
-- Displayed on content slides (if `watermark: true`) and section/ending slides.
-- Placed at right-bottom corner with offset `(dx: -0.8em, dy: -0.8em)` (or `-0.9em`).
-- Default width: `32%` (content), `28%` (section slide), `26%` (ending slide).
-- Must always remain low-contrast to avoid hindering foreground slide text readability.
+List markers: navy squares (0.36em level 1, 0.26em level 2). Enum numbers are bold navy two-digit (`01`).
 
 ---
 
-## 5. Anti-patterns & Style Violations
+## 4. Emphasis
 
-- **Direct Hardcoded Hex Colors**: Avoid hardcoding `#2B69C1` inside slide layouts or components. Always reference `self.colors.primary` so custom palette overrides work cleanly.
-- **Arbitrary Font Declarations**: Do not set one-off fonts like `font: "SimSun"` in individual slides without adding fallbacks; this breaks cross-platform rendering (Windows/Linux/macOS).
-- **Overriding Cuti Without Testing**: Never disable or omit `show-cn-fakebold` in custom slide settings, as KaiTi bold headings will silently turn into thin text on standard Linux/Typst environments.
-- **Ignoring Low-Contrast Ratios**: Watermarks and decorative elements must not obstruct text reading; text inside `tblock` must use `neutral-darkest` or `neutral-darker` over `primary-lightest`.
+| Function | Meaning | Rendering |
+|---|---|---|
+| `*text*` / `hl[...]` | Key term | navy bold (`hl` = `box(strong(...))`, no line breaks) |
+| `key[...]` | The page's single key conclusion | red bold |
+| `alert[...]` | touying alert | red bold |
+
+On dark grounds (opener, cover right panel, conclude bar) components set `show strong: set text(fill: white)`, so `hl` stays readable without a separate API. Use at most one `key` per page.
+
+---
+
+## 5. Component Catalogue (`components.typ`)
+
+| Group | Components |
+|---|---|
+| Labels | `tag(kind: "navy"\|"red"\|"line")`, `pill`, `tab-pill`, `edge-label(red:)`, `icon-disc` |
+| Bars | `conclude(label:, red-label:, pill:, bleed:)`, `base-bar`, `section-bar(icon:)` — full-bleed via `outset: (x: 1cm)` |
+| Boxes | `title-box(icon:, title:, aside:, width:, height:, body-size:)`, `group-box(label:, red:)`, `sub-box`, `dash-box`, `label-row(label:, dashed:)`, `red-frame(label:)`, `card(accent:)`, `side-card(label:)`, `paper-box` |
+| Flow | `block-arrow(dir: "right"\|"down")` |
+| Numbers | `points(start:, rule:)`, `kpi(label:, value:, basis:, key:)` |
+| Figures / math / tables | `fig-caption`, `figure-box(caption:)`, `eq-number`, `eq-block(number:, note:)`, `reading-card`, `screen-frame(title:)`, `result-table(header:, rows:, mark:)` |
+| Compatibility | `tblock(title:)` → alias of `title-box` (0.x API) |
+
+Conventions:
+
+- Radii are small (≤ 0.2cm); borders are `0.5–0.6pt + ysu-line`; title bars use `grad-head`.
+- Red marks a *problem* or the single *key* point; navy marks structure. Never use red for decoration.
+- `result-table` marks the proposed method's rows with `mark: (index, …)` (tint ground, bold).
+- Equal-height left label + right body rows go through `_equal-row`.
+
+---
+
+## 6. Brand Marks & Watermark
+
+- `seal(white:)`, `wordmark(white:)`, `logo(white:, height:)` are the only entry points to `themes/assets/`.
+- Content headers show a 0.42cm seal at the top right. Structure pages show the white seal as a 9%-opacity watermark via `_seal-panel`.
+- `ysu-watermark.png` is no longer drawn on content pages (the defense layout has no corner watermark); it stays in `assets/` as an approved asset.
+- Do not resize or recolor the marks beyond what `ASSETS.md` allows; do not add bitmaps.
+
+---
+
+## 7. Anti-patterns
+
+- Hex literals in slides or components — use tokens or `mix()`.
+- One-off `font:` without fallbacks — use `font-cjk` / `font-latin`.
+- More than one `key` per page, or red used as decoration.
+- `hl` inside a dark box without the white `strong` rule — navy on night is unreadable.
+- Overflowing structure-page text at 4:3 — always compile with `--input ratio=4-3` after layout changes.

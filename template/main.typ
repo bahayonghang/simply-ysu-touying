@@ -5,28 +5,63 @@
 
 #show: ysu-theme.with(
   aspect-ratio: "16-9",
+  // Short chapter labels of the footer navigation.
+  nav-labels: ("背景", "方法", "总结"),
   config-info(
     title: [燕山大学 Touying 演示模板],
-    short-title: [YSU Touying 模板],
-    subtitle: [面向中文学术汇报的新版 Typst 幻灯片主题],
     author: [张三],
-    institution: [燕山大学\\ 信息科学与工程学院],
+    supervisor: [李四#h(1em)教授],
+    subject: [学科专业],
+    school: [学院名称],
     date: datetime.today(),
+    stage: [学术汇报],
+    stage-en: [Academic Presentation],
   ),
 )
 
-#title-slide(
-  extra: [适用于课程汇报、组会、开题、中期检查与学术报告。],
-)
+#title-slide()
 
 #outline-slide()
 
-= 模板概览
+= 研究背景
+#chapter-opener(
+  question: [本章要回答的#hl[核心问题]是什么？],
+  keywords: ([关键词一], [关键词二]),
+)
 
-== 第一页
+== 1.1 研究背景
+#takeaway[用一句话写出本页结论，它会成为页眉主标题]
 
-#tblock(title: [使用说明])[
-  - 本模板基于 Touying 构建，适用于中文学术展示。
-  - 中文默认使用楷体，英文默认使用 Times New Roman。
-  - 可继续扩展页眉、页脚、分节页和内容块样式。
-]
+- 一级标题 `= 章名` 生成章节扉页，二级标题 `== 页名` 生成内容页。
+- `#takeaway[...]` 设置结论句，`#sub[...]` 设置面包屑中的小节。
+- 用 `#hl[...]` 标出关键术语，用 `#key[...]` 标出本页唯一的关键结论。
+
+= 研究方法
+
+== 2.1 方法概述
+#takeaway[分组框、块箭头与结论条组织“问题—方法—结论”]
+
+#grid(
+  columns: (1fr, auto, 1fr),
+  column-gutter: 0.25cm,
+  align: horizon,
+  group-box(label: [问题], red: true)[
+    #sub-box[问题一：……]
+    #sub-box[问题二：……]
+  ],
+  block-arrow[方法],
+  group-box(label: [方法])[
+    #sub-box[方法一：……]
+    #sub-box[方法二：……]
+  ],
+)
+#v(0.3cm)
+#conclude(label: [结论])[本章提出的方法解决了#hl[……]问题]
+
+= 总结
+
+== 3.1 主要结论
+
+#points(rule: true, [结论一：……], [结论二：……], [结论三：……])
+
+#ending-slide()
