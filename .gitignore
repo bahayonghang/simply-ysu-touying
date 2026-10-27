@@ -2,3 +2,9 @@
 .local-typst/
 .omc/
 .claude/
+.agents/
+.codex/
+.grok/
+.cursor/
+.kimi-code/
+.omp/
