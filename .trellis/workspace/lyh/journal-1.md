@@ -209,3 +209,37 @@ beamer-thesis 复刻 P01–P18（问题图、路线图、变量表、公式映�
 ### Next Steps
 
 - 父任务验收与归档
+
+
+## Session 8: YSU 答辩主题 1.0.0 父任务收尾
+<!-- trellis-session: v=2 fp=606a67b51a655b16 -->
+
+**Date**: 2026-10-27
+**Task**: YSU 答辩主题 1.0.0 父任务收尾
+**Branch**: `dev`
+
+### Summary
+
+跨子任务验收全部核对，父任务归档
+
+### Main Changes
+
+- integration-review.md 汇总验收证据与未验证项
+
+### Git Commits
+
+| Hash | Message |
+|------|---------|
+| `ae66df1` | chore: record journal |
+
+### Testing
+
+- [OK] 88/176 页、讲稿 88/88、模拟包与版本检查通过
+
+### Status
+
+[OK] **Completed**
+
+### Next Steps
+
+- 用户确认：0.14 基线、XeLaTeX 耗时、水印位图、对外发布
