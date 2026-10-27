@@ -130,7 +130,7 @@ Notes pages are as wide as the slide (16 cm × 13.5 cm for 16:9), dark, 18 pt. P
 
 ## Fonts
 
-Recommended: Source Han Sans SC (CJK) and Source Sans 3 (Latin). The fallback chain is Source Han Sans → Noto Sans SC → Microsoft YaHei for CJK and Source Sans 3 → Arial for Latin; change it with `font: (latin: (...), cjk: (...))`.
+Slides use sans-serif. CJK fallback: Source Han Sans → Noto Sans SC → Microsoft YaHei. Latin and digits: Arial. Change it with `font: (latin: (...), cjk: (...))`. If Source Sans 3 is installed, put it first in `latin`.
 
 ## Migrating from 0.2.x
 
@@ -141,7 +141,7 @@ Recommended: Source Han Sans SC (CJK) and Source Sans 3 (Latin). The fallback ch
 - `config-info` gains `supervisor`, `subject`, `school`, `stage` and `stage-en`; the cover uses them, and `institution`, `subtitle` and `short-title` are no longer shown.
 - `title-slide(extra:)` is replaced by `research-line:`; `ending-slide` takes `title:`, `kicker:` and `recap:` instead of a body-only page.
 - New page markers `sub[...]` and `takeaway[...]`, new `chapter-opener(...)`, and the component library above; `tblock` remains as an alias of `title-box`.
-- The palette changes from YSU blue (`#2B69C1`) to navy `#1F296A` with red `#B42318` accents; fonts change from KaiTi / Times New Roman to Source Han Sans / Source Sans 3.
+- The palette changes from YSU blue (`#2B69C1`) to navy `#1F296A` with red `#B42318` accents; fonts change from KaiTi / Times New Roman to Source Han Sans / Arial.
 - `@preview/cuti` is no longer used: the theme relies on real bold weights instead of fake bold.
 
 ## Included files

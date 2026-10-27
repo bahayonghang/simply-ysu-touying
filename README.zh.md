@@ -130,7 +130,7 @@ typst compile --root . --input notes=on slides.typ notes.pdf   # 每页之后一
 
 ## 字体
 
-推荐安装思源黑体 Source Han Sans SC（中文）与 Source Sans 3（西文）。回退顺序：中文 Source Han Sans → Noto Sans SC → 微软雅黑，西文 Source Sans 3 → Arial；可用 `font: (latin: (...), cjk: (...))` 修改。
+投影片用无衬线。中文回退：思源黑体 `Source Han Sans` → `Noto Sans SC` → 微软雅黑。西文与数字：`Arial`。可用 `font: (latin: (...), cjk: (...))` 修改；本机若安装了 Source Sans 3，可把它放在 `latin` 最前。
 
 ## 从 0.2.x 迁移
 
@@ -141,7 +141,7 @@ typst compile --root . --input notes=on slides.typ notes.pdf   # 每页之后一
 - `config-info` 新增 `supervisor`、`subject`、`school`、`stage`、`stage-en`，封面使用这些字段；`institution`、`subtitle`、`short-title` 不再显示。
 - `title-slide(extra:)` 改为 `research-line:`；`ending-slide` 改用 `title:`、`kicker:` 与 `recap:`。
 - 新增页面标记 `sub[...]`、`takeaway[...]`、`chapter-opener(...)` 与上面的组件库；`tblock` 保留为 `title-box` 的别名。
-- 配色由燕大蓝（`#2B69C1`）改为藏青 `#1F296A` 加红色 `#B42318` 强调；字体由楷体 / Times New Roman 改为思源黑体 / Source Sans 3。
+- 配色由燕大蓝（`#2B69C1`）改为藏青 `#1F296A` 加红色 `#B42318` 强调；字体由楷体 / Times New Roman 改为思源黑体 / Arial。
 - 不再依赖 `@preview/cuti`：主题使用字体的真实粗体，不再用伪粗体。
 
 ## 目录结构

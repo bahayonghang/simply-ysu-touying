@@ -44,8 +44,15 @@
 // ---------------------------------------------------------------------------
 // Fonts. Latin faces only cover Latin text, so CJK punctuation falls through
 // to the CJK face.
+//
+// Projected defense slides stay sans-serif. The YSU dissertation rule
+// (宋体 / 黑体 / Times New Roman) is for the printed thesis, and Songti's thin
+// strokes blur on a projector. Source Sans 3 is not in that rule and is absent
+// on a typical Windows lab machine; Typst warns for every unknown family, so
+// it is not in the default list. Pass it via `font.latin` after installing it.
+// SimHei is the system "黑体" but has no real bold, so it is omitted.
 // ---------------------------------------------------------------------------
-#let font-latin = ("Source Sans 3", "Arial")
+#let font-latin = ("Arial",)
 #let font-cjk = ("Source Han Sans", "Noto Sans SC", "Microsoft YaHei")
 #let _font-stack(latin, cjk) = latin.map(name => (name: name, covers: "latin-in-cjk")) + cjk
 

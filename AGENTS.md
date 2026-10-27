@@ -36,8 +36,8 @@ Managed by Trellis. Edits outside this block are preserved; edits inside may be 
 - **排版引擎**：Typst `0.15.1` 及以上（`typst.toml` 编译器基线为 `0.15.1`）
 - **核心依赖包**：`@preview/touying:0.6.3`（唯一依赖；1.0 起不再使用 `cuti`，粗体用字体的真实字重）
 - **字体规范**（`themes/tokens.typ`）：
-  - 西文/数字：`Source Sans 3` → `Arial`
-  - 中文：`Source Han Sans` → `Noto Sans SC` → `Microsoft YaHei`
+  - 西文/数字：`Arial`（投影用无衬线；不把未安装的 `Source Sans 3` 放进默认列表）
+  - 中文：`Source Han Sans` → `Noto Sans SC` → `Microsoft YaHei`（思源黑体优先；不用宋体，不用无真粗的黑体 SimHei）
   - 中文排版：`set text(lang: "zh", region: "cn")`，段落不两端对齐（`justify: false`）
   - 主题正文的文字边界为 `top-edge: "cap-height"`、`bottom-edge: "baseline"`；含分式的行内公式需包一层 `text(top-edge: "bounds", bottom-edge: "bounds", ...)`
 - **色彩令牌**（`themes/tokens.typ`）：

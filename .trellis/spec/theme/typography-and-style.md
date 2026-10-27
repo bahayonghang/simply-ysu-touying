@@ -34,15 +34,17 @@ Gradients: `grad-head` (title bars), `grad-bar` (conclude bar), `grad-key`, `gra
 ## 2. Fonts
 
 ```typ
-#let font-latin = ("Source Sans 3", "Arial")
+#let font-latin = ("Arial",)
 #let font-cjk = ("Source Han Sans", "Noto Sans SC", "Microsoft YaHei")
 ```
 
+- Slides stay sans-serif. YSU 学位论文撰写规范（2024）§3.1（正文宋体、标题黑体、西文与阿拉伯数字 Times New Roman）约束纸本学位论文，不直接套到投影片。
+- CJK order: Source Han Sans（思源黑体；Typst 族名不带 SC），then the same design as Noto Sans SC, then Microsoft YaHei. All three have real bold. Do not append SimHei or KaiTi.
+- Latin is Arial, the face already paired with 黑体 on Windows academic machines. Do not put an uninstalled family such as Source Sans 3 in the default list: Typst warns for every unknown family even when a later face is used. Users who install Source Sans 3 may pass it as the first `font.latin` entry.
 - Latin faces are added with `covers: "latin-in-cjk"` (`_font-stack`), so CJK punctuation falls through to the CJK face.
 - Users override with `ysu-theme(font: (latin: …, cjk: …))`.
 - `heavy = 900` for the cover title and opener number (Source Han Sans Heavy). Faces without 900 fall back to bold.
 - `show raw` uses `"DejaVu Sans Mono"` (bundled with Typst) plus the CJK stack.
-- A missing first-choice face gives an "unknown font family" warning, not an error. This is expected on machines without Source Sans 3.
 
 **No fake bold.** `cuti` was removed in 1.0.0: the CJK stack is sans-serif with real bold weights. Do not reintroduce KaiTi-style fonts that need fake bold.
 
