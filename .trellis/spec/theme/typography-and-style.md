@@ -79,7 +79,7 @@ On dark grounds (opener, cover right panel, conclude bar) components set `show s
 |---|---|
 | Labels | `tag(kind: "navy"\|"red"\|"line")`, `pill`, `tab-pill`, `edge-label(red:)`, `icon-disc` |
 | Bars | `conclude(label:, red-label:, pill:, bleed:)`, `base-bar`, `section-bar(icon:)` — full-bleed via `outset: (x: 1cm)` |
-| Boxes | `title-box(icon:, title:, aside:, width:, height:, body-size:)`, `group-box(label:, red:)`, `sub-box`, `dash-box`, `label-row(label:, dashed:)`, `red-frame(label:)`, `card(accent:)`, `side-card(label:)`, `paper-box` |
+| Boxes | `title-box(icon:, title:, aside:, width:, height:, body-size:)`, `group-box(label:, red:)`, `sub-box`, `dash-box`, `label-row(label:, dashed:)`, `red-frame(label:, center:)`, `card(accent:)`, `side-card(label:)`, `paper-box` |
 | Flow | `block-arrow(dir: "right"\|"down")` |
 | Numbers | `points(start:, rule:)`, `kpi(label:, value:, basis:, key:)` |
 | Figures / math / tables | `fig-caption`, `figure-box(caption:)`, `eq-number`, `eq-block(number:, note:)`, `reading-card`, `screen-frame(title:)`, `result-table(header:, rows:, mark:)` |

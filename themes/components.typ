@@ -291,7 +291,7 @@
   {
     set text(fill: ysu-navy)
     if center {
-      std.align(center, { if label != none { edge-label(red: true, label); h(0.5em) }; body })
+      std.align(std.center, { if label != none { edge-label(red: true, label); h(0.5em) }; body })
     } else {
       grid(
         columns: (auto, 1fr),
