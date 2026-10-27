@@ -8,7 +8,7 @@
 
 <!-- @@@auto:current-status -->
 - **Active File**: `journal-1.md`
-- **Total Sessions**: 6
+- **Total Sessions**: 7
 - **Last Active**: 2026-10-27
 <!-- @@@/auto:current-status -->
 
@@ -19,7 +19,7 @@
 <!-- @@@auto:active-documents -->
 | File | Lines | Status |
 |------|-------|--------|
-| `journal-1.md` | ~174 | Active |
+| `journal-1.md` | ~211 | Active |
 <!-- @@@/auto:active-documents -->
 
 ---
@@ -29,6 +29,7 @@
 <!-- @@@auto:session-history -->
 | # | Date | Title | Commits | Branch |
 |---|------|-------|---------|--------|
+| 7 | 2026-10-27 | 发布 1.0.0：版本同步与文档 | `83dbd88` | `dev` |
 | 6 | 2026-10-27 | 复刻三：第 5-7 章与致谢 | `d5a3532`, `b6ca8b3` | `dev` |
 | 5 | 2026-10-27 | 复刻二：第 3-4 章（P19–P51） | `eab0dbc`, `f2be06a`, `be3e443` | `dev` |
 | 4 | 2026-10-27 | 复刻一：封面目录与第 1-2 章 | `4d87960` | `dev` |

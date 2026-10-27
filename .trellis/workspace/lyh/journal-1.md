@@ -172,3 +172,40 @@ beamer-thesis 复刻 P01–P18（问题图、路线图、变量表、公式映�
 ### Next Steps
 
 - release-1-0-0
+
+
+## Session 7: 发布 1.0.0：版本同步与文档
+<!-- trellis-session: v=2 fp=168a62c26ef4ea50 -->
+
+**Date**: 2026-10-27
+**Task**: 发布 1.0.0：版本同步与文档
+**Branch**: `dev`
+
+### Summary
+
+版本升至 1.0.0，README 中英重写，重生成缩略图、模板 PDF 与截图，本地 Universe 模拟通过
+
+### Main Changes
+
+- typst.toml / template / README / docs / AGENTS.md 版本统一为 1.0.0
+- README 新增结构页 API、组件一览、演讲备注、字体与从 0.2.x 迁移
+- package 规范与 AGENTS.md 反映新架构
+
+### Git Commits
+
+| Hash | Message |
+|------|---------|
+| `83dbd88` | chore(release): 🔖 发布 1.0.0：同步版本、重写文档与展示产物 |
+
+### Testing
+
+- [OK] 本地 Universe 模拟 init + compile 成功
+- [OK] beamer-ysu 16:9 / 4:3 / 备注版通过；Typst 0.14 基线未验证
+
+### Status
+
+[OK] **Completed**
+
+### Next Steps
+
+- 父任务验收与归档
