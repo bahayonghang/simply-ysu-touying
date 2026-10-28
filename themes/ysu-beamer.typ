@@ -628,10 +628,15 @@ ote)
         let (no, t) = row
         _at(block-x, list-y + i * 0.44cm, text(size: 9.5pt, {
           if ic != none {
-            box(baseline: 0.12cm, circle(radius: 0.16cm, fill: mix(ysu-navy, 70%), inset: 0pt, std.align(
-              center + horizon,
-              text(size: 5.2pt, fill: white, ic),
-            )))
+            // Disc center 0.12 cm above the baseline (the CJK glyph center).
+            // A bare length shifts the baseline up and drops the disc; anchor
+            // the horizon, then move that anchor down by 0.12 cm.
+            box(baseline: (at: horizon, shift: -0.12cm), circle(
+              radius: 0.16cm,
+              fill: mix(ysu-navy, 70%),
+              inset: 0pt,
+              std.align(center + horizon, text(size: 5.2pt, fill: white, ic)),
+            ))
             h(0.2cm)
           }
           if no != "" { text(weight: "bold", fill: ysu-kicker, no); h(0.22cm) }
