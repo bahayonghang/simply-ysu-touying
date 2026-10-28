@@ -22,11 +22,11 @@ Managed by Trellis. Edits outside this block are preserved; edits inside may be 
 
 # simply-ysu-touying 项目指南 (AI Agent Context)
 
-本项目为燕山大学（Yanshan University, YSU）专属的 Typst 幻灯片主题包，基于 [Touying](https://touying-typ.github.io/touying/zh/) 构建，面向中文学术汇报场景（课程展示、组会汇报、开题/中期/毕业答辩、学术研讨等）设计。1.0 版按博士学位论文答辩稿（LaTeX/Beamer）的版式重写。
+本项目为燕山大学（Yanshan University, YSU）专属的 Typst 幻灯片主题包，基于 [Touying](https://touying-typ.github.io/touying/zh/) 构建，面向中文学术汇报场景（课程展示、组会汇报、开题/中期/毕业答辩、学术研讨等）设计。0.2.0 版按博士学位论文答辩稿（LaTeX/Beamer）的版式重写。
 
 - **Typst Universe 包名**：`simply-ysu-touying`
 - **代码仓库**：`touying-theme-ysu`
-- **当前版本**：`1.0.0`（参见 `typst.toml`）
+- **当前版本**：`0.2.0`（参见 `typst.toml`）
 - **核心定位**：提供开箱即用、视觉规范且符合中文学术习惯的答辩式幻灯片模板、组件库与演讲备注。
 
 ---
@@ -34,7 +34,7 @@ Managed by Trellis. Edits outside this block are preserved; edits inside may be 
 ## 1. 技术栈与环境规范
 
 - **排版引擎**：Typst `0.15.1` 及以上（`typst.toml` 编译器基线为 `0.15.1`）
-- **核心依赖包**：`@preview/touying:0.6.3`（唯一依赖；1.0 起不再使用 `cuti`，粗体用字体的真实字重）
+- **核心依赖包**：`@preview/touying:0.8.0`（唯一依赖；0.2.0 起不再使用 `cuti`，粗体用字体的真实字重）
 - **字体规范**（`themes/tokens.typ`）：
   - 西文/数字：`Arial`（投影用无衬线；不把未安装的 `Source Sans 3` 放进默认列表）
   - 中文：`Source Han Sans` → `Noto Sans SC` → `Microsoft YaHei`（思源黑体优先；不用宋体，不用无真粗的黑体 SimHei）
@@ -97,7 +97,7 @@ typst compile --root . --input notes=on examples/beamer-ysu.typ .tmp/notes.pdf
 python -I examples/check-page-labels.py .tmp/notes.pdf --expect-notes
 
 # 3. 模拟 Typst Universe 本地包验证（完整脚本见 docs/typst-packages-pr-structure.md）
-typst init --package-path <local-package-root> @preview/simply-ysu-touying:1.0.0 my-slides
+typst init --package-path <local-package-root> @preview/simply-ysu-touying:0.2.0 my-slides
 typst compile --package-path <local-package-root> my-slides/main.typ
 ```
 
@@ -108,7 +108,7 @@ typst compile --package-path <local-package-root> my-slides/main.typ
 ### 4.1 主题初始化 (`ysu-theme`)
 
 ```typ
-#import "@preview/simply-ysu-touying:1.0.0": *
+#import "@preview/simply-ysu-touying:0.2.0": *
 
 #show: ysu-theme.with(
   aspect-ratio: "16-9",          // 16cm×9cm；"4-3" 为 12cm×9cm
@@ -154,7 +154,7 @@ typst compile --package-path <local-package-root> my-slides/main.typ
    - `examples/beamer-thesis/`（答辩稿复刻，含论文图片）不入库、不发布。
 3. **版本号同步一致性**:
    - 当发布新版本时，须同步核对并更新：`typst.toml` 的 `version`、`template/main.typ` 中的包引用版本、`README.md` / `README.zh.md` 中的命令示例、`docs/typst-packages-pr-structure.md` 以及本文件。
-   - 1.0.0 起公开 API（`ysu-theme` 参数、结构页函数、组件名）按 semver 管理，破坏性改动需升主版本。
+   - 当前版本为 `0.2.0`。0.x 阶段的破坏性改动升次版本；到达 `1.0.0` 后，公开 API（`ysu-theme` 参数、结构页函数、组件名）按 semver 管理，破坏性改动升主版本。
 4. **编译与样式安全性**:
    - 涉及 `themes/*.typ` 的改动，必须使用 `typst compile --root . examples/beamer-ysu.typ`（16:9 与 4:3）进行端到端回归验证，确认未破坏分页、页眉页脚、章节导航、目录抓取与备注页。
    - 函数参数不要取名 `center`、`top`、`left` 等对齐常量或 `v` 等内置函数名；若无法避免，在函数体内用 `std.center` 等访问内置值。

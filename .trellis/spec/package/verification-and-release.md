@@ -32,7 +32,7 @@ Typst packages do not use dynamic version resolution. A version bump requires st
 
 | File | Exact Location | What to Verify |
 |---|---|---|
-| `typst.toml` | `[package] version` | Must match new version (e.g. `"1.0.0"`) |
+| `typst.toml` | `[package] version` | Must match new version (e.g. `"0.2.0"`) |
 | `template/main.typ` | `#import "@preview/simply-ysu-touying:..."` | Package import version must match `typst.toml` version |
 | `README.md` | Quick start code block and `typst init` command | Version in `@preview/simply-ysu-touying:<ver>` |
 | `README.zh.md` | 快速开始代码块与 `typst init` 命令行 | Version in `@preview/simply-ysu-touying:<ver>` |

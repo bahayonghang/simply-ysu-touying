@@ -1,0 +1,3 @@
+{"file": ".trellis/spec/package/verification-and-release.md", "reason": "Acceptance compiles, notes page labels, and version sync"}
+{"file": ".trellis/spec/theme/theme-architecture.md", "reason": "Public API and notes-page behavior that must stay"}
+{"file": ".trellis/tasks/10-27-touying-0-8-0/research/touying-0.8-migration.md", "reason": "Required compatibility pins versus out-of-scope 0.8 features"}

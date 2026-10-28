@@ -6,7 +6,7 @@
 
 ## Overview
 
-The `theme` layer owns the visual and structural presentation logic for Yanshan University slides. It builds on `@preview/touying:0.6.3` (no other dependency since 1.0.0) to deliver the navy defense layout: structure pages, contextual header/footer, Chinese typography, design tokens, and a component library.
+The `theme` layer owns the visual and structural presentation logic for Yanshan University slides. It builds on `@preview/touying:0.8.0` (no other dependency since 0.2.0) to deliver the navy defense layout: structure pages, contextual header/footer, Chinese typography, design tokens, and a component library.
 
 Theme code is split into `themes/tokens.typ`, `themes/components.typ` and `themes/ysu-beamer.typ`, all exported through `lib.typ`.
 

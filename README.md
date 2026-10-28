@@ -2,7 +2,7 @@
 
 [[中文]](./README.zh.md)
 
-A Yanshan University slide theme for [Touying](https://touying-typ.github.io/touying/zh/) and Typst. Version 1.0 follows the layout of a doctoral defense deck: a navy palette, a breadcrumb headline that carries the slide's conclusion, chapter openers, a footer chapter navigation, and a component library for problem–method–conclusion pages. Speaker notes can be compiled into separate notes pages for presenter tools.
+A Yanshan University slide theme for [Touying](https://touying-typ.github.io/touying/zh/) and Typst. Version 0.2.0 follows the layout of a doctoral defense deck: a navy palette, a breadcrumb headline that carries the slide's conclusion, chapter openers, a footer chapter navigation, and a component library for problem–method–conclusion pages. Speaker notes can be compiled into separate notes pages for presenter tools.
 
 | Cover | Chapter opener | Content slide |
 | --- | --- | --- |
@@ -11,12 +11,12 @@ A Yanshan University slide theme for [Touying](https://touying-typ.github.io/tou
 ## Requirements
 
 - Typst `0.15.1` or later
-- `@preview/touying:0.6.3` (imported by the package)
+- `@preview/touying:0.8.0` (imported by the package)
 
 ## Quick start
 
 ```bash
-typst init @preview/simply-ysu-touying:1.0.0 my-slides
+typst init @preview/simply-ysu-touying:0.2.0 my-slides
 cd my-slides
 typst compile main.typ
 ```
@@ -24,7 +24,7 @@ typst compile main.typ
 A minimal deck:
 
 ```typ
-#import "@preview/simply-ysu-touying:1.0.0": *
+#import "@preview/simply-ysu-touying:0.2.0": *
 
 #show: ysu-theme.with(
   aspect-ratio: "16-9",                 // or "4-3"
@@ -59,7 +59,7 @@ Slide content.
 To work from a cloned repository, import the theme file instead:
 
 ```typ
-#import "@preview/touying:0.6.3": *
+#import "@preview/touying:0.8.0": *
 #import "themes/ysu-beamer.typ": *
 ```
 
@@ -132,9 +132,9 @@ Notes pages are as wide as the slide (16 cm × 13.5 cm for 16:9), dark, 18 pt. P
 
 Slides use sans-serif. CJK fallback: Source Han Sans → Noto Sans SC → Microsoft YaHei. Latin and digits: Arial. Change it with `font: (latin: (...), cjk: (...))`. If Source Sans 3 is installed, put it first in `latin`.
 
-## Migrating from 0.2.x
+## Migrating from 0.1.x
 
-1.0.0 is a breaking release.
+0.2.0 is a breaking release.
 
 - Removed `ysu-theme` parameters: `progress-bar`, `watermark`, `footer-columns`, `footer-a` … `footer-d`. The footer now shows author · stage, the chapter navigation (`nav-labels`) and the page number.
 - Pages are 16 cm × 9 cm (12 cm × 9 cm for 4:3) instead of `presentation-16-9`; the default body alignment is `horizon`.

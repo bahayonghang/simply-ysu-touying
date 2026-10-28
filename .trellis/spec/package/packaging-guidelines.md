@@ -11,7 +11,7 @@
 ```toml
 [package]
 name = "simply-ysu-touying"
-version = "1.0.0"
+version = "0.2.0"
 entrypoint = "lib.typ"
 compiler = "0.15.1"
 authors = ["Geekyhang <@bahayonghang>"]
@@ -52,7 +52,7 @@ thumbnail = "thumbnail.png"
 
 ## 2. Template Structure (`template/`)
 
-When a user initializes a presentation with `typst init @preview/simply-ysu-touying:1.0.0 my-slides`, Typst extracts `template/main.typ`.
+When a user initializes a presentation with `typst init @preview/simply-ysu-touying:0.2.0 my-slides`, Typst extracts `template/main.typ`.
 
 ### 2.1 File Contract
 
@@ -64,7 +64,7 @@ When a user initializes a presentation with `typst init @preview/simply-ysu-touy
   ```
 - The import must import the published package namespace:
   ```typ
-  #import "@preview/simply-ysu-touying:1.0.0": *
+  #import "@preview/simply-ysu-touying:0.2.0": *
   ```
 - Do not import local relative paths like `"../lib.typ"` inside `template/main.typ`, because end users run `template/main.typ` in isolated user workspaces.
 
@@ -99,4 +99,4 @@ simply-ysu-touying/
 
 All other files (`docs/`, `examples/`, `ASSETS.md`, `README.zh.md`, `.git*`, `.trellis*`) are repository-side maintenance files excluded via `exclude` in `typst.toml`. `examples/beamer-thesis/` (the defense-deck replica with thesis figures) is additionally ignored by git and never published.
 
-The package depends only on `@preview/touying:0.6.3`; `cuti` was dropped in 1.0.0.
+The package depends only on `@preview/touying:0.8.0`; `cuti` was dropped in 0.2.0.

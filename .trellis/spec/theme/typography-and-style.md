@@ -2,7 +2,7 @@
 
 > Design tokens, typography and component conventions of the YSU defense theme. Source of truth: `themes/tokens.typ` and `themes/components.typ`.
 >
-> Status: 1.0.0 draft — the release task does the final review.
+> Status: 0.2.0 draft — the release task does the final review.
 
 ---
 
@@ -46,7 +46,7 @@ Gradients: `grad-head` (title bars), `grad-bar` (conclude bar), `grad-key`, `gra
 - `heavy = 900` for the cover title and opener number (Source Han Sans Heavy). Faces without 900 fall back to bold.
 - `show raw` uses `"DejaVu Sans Mono"` (bundled with Typst) plus the CJK stack.
 
-**No fake bold.** `cuti` was removed in 1.0.0: the CJK stack is sans-serif with real bold weights. Do not reintroduce KaiTi-style fonts that need fake bold.
+**No fake bold.** `cuti` was removed in 0.2.0: the CJK stack is sans-serif with real bold weights. Do not reintroduce KaiTi-style fonts that need fake bold.
 
 ## 3. Sizes & Rhythm
 

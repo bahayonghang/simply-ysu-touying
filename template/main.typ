@@ -1,7 +1,7 @@
 // The starter content in this template file is additionally available under
 // MIT No Attribution. See LICENSE-MIT-0.txt and README.md for details.
 
-#import "@preview/simply-ysu-touying:1.0.0": *
+#import "@preview/simply-ysu-touying:0.2.0": *
 
 #show: ysu-theme.with(
   aspect-ratio: "16-9",

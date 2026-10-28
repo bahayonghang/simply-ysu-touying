@@ -2,7 +2,7 @@
 
 > Architectural patterns and implementation conventions for the YSU defense theme (`themes/tokens.typ`, `themes/components.typ`, `themes/ysu-beamer.typ`).
 >
-> Status: 1.0.0 draft — written with the `10-27-theme-core` task; the release task (`10-27-release-1-0-0`) does the final review.
+> Status: 0.2.0 draft — written with the `10-27-theme-core` task; the release task (`10-27-release-1-0-0`) does the final review.
 
 ---
 
@@ -66,7 +66,7 @@ Hard-coded `cm` is correct here because the page size is fixed. When a layout de
 Pipeline into `touying-slides`:
 
 1. `config-page` — width/height above, white fill, header/footer `none` (both are drawn in the `background`, see §5).
-2. `config-common` — `slide-fn: slide`, `new-section-slide-fn: new-section-slide`, `show-strong-with-alert: false`.
+2. `config-common` — `slide-fn: slide`, `new-section-slide-fn: new-section-slide`, `receive-body-for-new-section-slide-fn: true`, `show-strong-with-alert: false`. Touying 0.8.0 defaults that body flag to `false`; the theme keeps it `true` so markup after `= 标题` (including `<ysu-opener>`) stays on the section slide. Do not set `breakable` or `notes-fn` here.
 3. `config-methods(init:)` — text 10pt ink, fonts, `lang: "zh"`, list markers, `show strong`, `show raw`, captions (see typography spec). `alert` = red bold.
 4. `config-colors` — maps tokens onto touying's names (`primary: ysu-navy`, `secondary: ysu-red`, …) for third-party touying components.
 5. `config-store` — `align`, `nav-labels`, `nav-full-labels`, `headline-width`, `slide-title`.
