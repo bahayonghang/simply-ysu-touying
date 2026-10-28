@@ -6,11 +6,11 @@
 
 | 封面 | 章节扉页 | 内容页 |
 | --- | --- | --- |
-| ![封面](https://raw.githubusercontent.com/bahayonghang/simply-ysu-touying/main/docs/screenshots/beamer-ysu-cover.png) | ![章节扉页](https://raw.githubusercontent.com/bahayonghang/simply-ysu-touying/main/docs/screenshots/beamer-ysu-opener.png) | ![内容页](https://raw.githubusercontent.com/bahayonghang/simply-ysu-touying/main/docs/screenshots/beamer-ysu-content.png) |
+| ![封面](https://raw.githubusercontent.com/bahayonghang/simply-ysu-touying/4bd7c6513552e5e74b40c7ad1332a3227c9803ef/docs/screenshots/beamer-ysu-cover.png) | ![章节扉页](https://raw.githubusercontent.com/bahayonghang/simply-ysu-touying/4bd7c6513552e5e74b40c7ad1332a3227c9803ef/docs/screenshots/beamer-ysu-opener.png) | ![内容页](https://raw.githubusercontent.com/bahayonghang/simply-ysu-touying/4bd7c6513552e5e74b40c7ad1332a3227c9803ef/docs/screenshots/beamer-ysu-content.png) |
 
 ## 依赖环境
 
-- Typst `0.15.1` 及以上
+- Typst `0.15.0` 及以上
 - `@preview/touying:0.8.0`（由包自动导入）
 
 ## 快速开始
@@ -110,7 +110,10 @@ typst compile --root . --input ratio=4-3 examples/beamer-ysu.typ   # 4:3 版
 ```typ
 #show: ysu-theme.with(
   notes: sys.inputs.at("notes", default: "off") == "on",
-  config-info(...),
+  config-info(
+    title: [报告标题],
+    author: [报告人],
+  ),
 )
 
 #title-slide(note: [各位老师好，我汇报的题目是……])

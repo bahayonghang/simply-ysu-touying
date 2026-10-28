@@ -13,7 +13,7 @@
 name = "simply-ysu-touying"
 version = "0.2.0"
 entrypoint = "lib.typ"
-compiler = "0.15.1"
+compiler = "0.15.0"
 authors = ["Geekyhang <@bahayonghang>"]
 license = "MIT AND MIT-0"
 description = "Yanshan University defense-style slides for Touying, with speaker notes."
@@ -37,7 +37,7 @@ thumbnail = "thumbnail.png"
 
 ### Critical Manifest Rules
 
-1. **`compiler` baseline**: Kept at `0.15.1` (current verified Typst release; raise only after compiling on that release).
+1. **`compiler` baseline**: `0.15.0`. That is the minimum Touying 0.8.0 declares, and the version the Universe package checker compiles templates with. 0.15.1 is a bugfix release with no new syntax, so do not raise this field to the locally installed patch release.
 2. **`license` field**: Must be an exact valid SPDX license expression. The repo uses `"MIT AND MIT-0"`.
 3. **`exclude` rule**:
    ```toml

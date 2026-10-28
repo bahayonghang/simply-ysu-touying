@@ -24,7 +24,7 @@ Because `simply-ysu-touying` is published on Typst Universe as `@preview/simply-
 
 ## Key Files
 
-- `typst.toml`: Typst package manifest containing metadata, compiler minimum version (`0.15.1`), template configuration, and exclude filters.
+- `typst.toml`: Typst package manifest containing metadata, compiler minimum version (`0.15.0`), template configuration, and exclude filters.
 - `template/main.typ`: Entrypoint for `typst init` starter presentation, licensed under MIT-0.
 - `thumbnail.png`: Typst Universe catalog preview image (must not be referenced in package code).
 - `ASSETS.md`: Single source of truth for university visual asset provenance, transformations, and review context.

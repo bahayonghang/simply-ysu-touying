@@ -90,6 +90,6 @@ typst compile --package-path $root .tmp/pkg-test/main.typ
   - `LICENSE` preserves the upstream QuadnucYard notice and the current Geekyhang notice for the MIT-licensed source files in this adapted repository;
   - `template/main.typ` starter content is additionally available under MIT-0 via `LICENSE-MIT-0.txt`;
   - `themes/assets/ysu-*` come from public Yanshan University visual materials, were converted into theme-ready PNG derivatives, and are outside the SPDX software-license scope; and
-  - README screenshots use stable external raw GitHub URLs so preview images are documented without being bundled into the package body.
+  - README screenshots use raw GitHub URLs pinned to a commit, not `main`. Links to files kept out of the package (`README.zh.md`, `ASSETS.md`) must be commit permalinks too; relative links fail the package check.
 - 0.2.0 is a breaking release relative to 0.1.x; the README section "Migrating from 0.1.x" lists the changes.
 - If you cannot justify redistribution of the branded assets to reviewers, stop and replace/remove those assets before submission.
