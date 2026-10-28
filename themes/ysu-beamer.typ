@@ -4,7 +4,7 @@
 // 16 cm x 9 cm (12 cm x 9 cm for 4:3), so the positions below are the deck's
 // own centimetres and the font sizes its own points.
 
-#import "@preview/touying:0.6.3": *
+#import "@preview/touying:0.8.0": *
 #import "tokens.typ": *
 #import "components.typ": *
 
@@ -772,6 +772,7 @@ ote)
     config-common(
       slide-fn: slide,
       new-section-slide-fn: new-section-slide,
+      receive-body-for-new-section-slide-fn: true,
       show-strong-with-alert: false,
       zero-margin-header: false,
       zero-margin-footer: false,

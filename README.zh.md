@@ -2,7 +2,7 @@
 
 [[English]](./README.md)
 
-这是基于 [Touying](https://touying-typ.github.io/touying/zh/) 的燕山大学 Typst 幻灯片主题。1.0 版按博士学位论文答辩稿的版式重写：藏青配色，页眉用面包屑加结论句，带章节扉页、页脚章节导航，以及组织“问题—方法—结论”页面的组件库。演讲备注可编译为独立备注页，供演讲者工具使用。
+这是基于 [Touying](https://touying-typ.github.io/touying/zh/) 的燕山大学 Typst 幻灯片主题。0.2.0 版按博士学位论文答辩稿的版式重写：藏青配色，页眉用面包屑加结论句，带章节扉页、页脚章节导航，以及组织“问题—方法—结论”页面的组件库。演讲备注可编译为独立备注页，供演讲者工具使用。
 
 | 封面 | 章节扉页 | 内容页 |
 | --- | --- | --- |
@@ -11,12 +11,12 @@
 ## 依赖环境
 
 - Typst `0.15.1` 及以上
-- `@preview/touying:0.6.3`（由包自动导入）
+- `@preview/touying:0.8.0`（由包自动导入）
 
 ## 快速开始
 
 ```powershell
-typst init @preview/simply-ysu-touying:1.0.0 my-slides
+typst init @preview/simply-ysu-touying:0.2.0 my-slides
 Set-Location my-slides
 typst compile main.typ
 ```
@@ -24,7 +24,7 @@ typst compile main.typ
 最小示例：
 
 ```typ
-#import "@preview/simply-ysu-touying:1.0.0": *
+#import "@preview/simply-ysu-touying:0.2.0": *
 
 #show: ysu-theme.with(
   aspect-ratio: "16-9",                 // 或 "4-3"
@@ -59,7 +59,7 @@ typst compile main.typ
 直接在克隆的仓库里使用时，改为导入主题文件：
 
 ```typ
-#import "@preview/touying:0.6.3": *
+#import "@preview/touying:0.8.0": *
 #import "themes/ysu-beamer.typ": *
 ```
 
@@ -132,9 +132,9 @@ typst compile --root . --input notes=on slides.typ notes.pdf   # 每页之后一
 
 投影片用无衬线。中文回退：思源黑体 `Source Han Sans` → `Noto Sans SC` → 微软雅黑。西文与数字：`Arial`。可用 `font: (latin: (...), cjk: (...))` 修改；本机若安装了 Source Sans 3，可把它放在 `latin` 最前。
 
-## 从 0.2.x 迁移
+## 从 0.1.x 迁移
 
-1.0.0 含破坏性变更。
+0.2.0 含破坏性变更。
 
 - 删除 `ysu-theme` 参数：`progress-bar`、`watermark`、`footer-columns`、`footer-a` … `footer-d`。页脚改为“作者 · 阶段”、章节导航（`nav-labels`）与页码。
 - 页面尺寸改为 16 cm × 9 cm（4:3 为 12 cm × 9 cm），不再用 `presentation-16-9`；正文默认竖直居中（`horizon`）。

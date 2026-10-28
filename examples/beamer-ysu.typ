@@ -1,4 +1,4 @@
-#import "@preview/touying:0.6.3": *
+#import "@preview/touying:0.8.0": *
 #import "/themes/ysu-beamer.typ": *
 
 #show: ysu-theme.with(
@@ -236,7 +236,7 @@
   column-gutter: 0.4cm,
   align: horizon,
   block(fill: ysu-tint, inset: 8pt, width: 100%, text(size: 7.5pt, ```typ
-  #import "@preview/simply-ysu-touying:1.0.0": *
+  #import "@preview/simply-ysu-touying:0.2.0": *
   #show: ysu-theme.with(config-info(
     title: [报告标题], author: [姓名],
     stage: [学术汇报], date: datetime.today(),
