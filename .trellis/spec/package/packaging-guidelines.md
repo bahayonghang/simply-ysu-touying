@@ -11,12 +11,12 @@
 ```toml
 [package]
 name = "simply-ysu-touying"
-version = "0.2.0"
+version = "1.0.0"
 entrypoint = "lib.typ"
-compiler = "0.14.0"
+compiler = "0.15.1"
 authors = ["Geekyhang <@bahayonghang>"]
 license = "MIT AND MIT-0"
-description = "Yanshan University slides with Touying."
+description = "Yanshan University defense-style slides for Touying, with speaker notes."
 repository = "https://github.com/bahayonghang/simply-ysu-touying"
 keywords = [
   "slides",
@@ -37,7 +37,7 @@ thumbnail = "thumbnail.png"
 
 ### Critical Manifest Rules
 
-1. **`compiler` baseline**: Kept at `0.14.0` (or lowest verified Typst release support).
+1. **`compiler` baseline**: Kept at `0.15.1` (current verified Typst release; raise only after compiling on that release).
 2. **`license` field**: Must be an exact valid SPDX license expression. The repo uses `"MIT AND MIT-0"`.
 3. **`exclude` rule**:
    ```toml
@@ -52,7 +52,7 @@ thumbnail = "thumbnail.png"
 
 ## 2. Template Structure (`template/`)
 
-When a user initializes a presentation with `typst init @preview/simply-ysu-touying:0.2.0 my-slides`, Typst extracts `template/main.typ`.
+When a user initializes a presentation with `typst init @preview/simply-ysu-touying:1.0.0 my-slides`, Typst extracts `template/main.typ`.
 
 ### 2.1 File Contract
 
@@ -64,7 +64,7 @@ When a user initializes a presentation with `typst init @preview/simply-ysu-touy
   ```
 - The import must import the published package namespace:
   ```typ
-  #import "@preview/simply-ysu-touying:0.2.0": *
+  #import "@preview/simply-ysu-touying:1.0.0": *
   ```
 - Do not import local relative paths like `"../lib.typ"` inside `template/main.typ`, because end users run `template/main.typ` in isolated user workspaces.
 
@@ -87,6 +87,8 @@ simply-ysu-touying/
 │   └── main.pdf (precompiled preview)
 └── themes/
     ├── ysu-beamer.typ
+    ├── components.typ
+    ├── tokens.typ
     └── assets/
         ├── ysu-seal.png
         ├── ysu-seal-white.png
@@ -95,4 +97,6 @@ simply-ysu-touying/
         └── ysu-wordmark-only-white.png
 ```
 
-All other files (`docs/`, `examples/`, `ASSETS.md`, `README.zh.md`, `.git*`, `.trellis*`) are repository-side maintenance files excluded via `exclude` in `typst.toml`.
+All other files (`docs/`, `examples/`, `ASSETS.md`, `README.zh.md`, `.git*`, `.trellis*`) are repository-side maintenance files excluded via `exclude` in `typst.toml`. `examples/beamer-thesis/` (the defense-deck replica with thesis figures) is additionally ignored by git and never published.
+
+The package depends only on `@preview/touying:0.6.3`; `cuti` was dropped in 1.0.0.

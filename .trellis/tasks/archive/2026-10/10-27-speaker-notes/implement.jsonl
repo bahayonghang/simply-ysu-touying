@@ -1,0 +1,6 @@
+{"file": ".trellis/spec/theme/index.md", "reason": "Theme layer index and core principles"}
+{"file": ".trellis/spec/theme/theme-architecture.md", "reason": "Touying wrapper conventions and state handling"}
+{"file": ".trellis/spec/theme/typography-and-style.md", "reason": "Typography and color conventions being replaced"}
+{"file": ".trellis/tasks/10-27-ysu-defense-1-0/research/latex-visual-spec.md", "reason": "Visual tokens, geometry and component catalog of the LaTeX deck"}
+{"file": ".trellis/spec/guides/code-reuse-thinking-guide.md", "reason": "Avoid duplicating drawing helpers across structure pages"}
+{"file": ".trellis/tasks/10-27-ysu-defense-1-0/research/notes-contract.md", "reason": "FerroStage notes contract and spike evidence"}

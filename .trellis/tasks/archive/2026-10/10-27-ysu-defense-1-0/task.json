@@ -1,0 +1,33 @@
+{
+  "id": "ysu-defense-1-0",
+  "name": "ysu-defense-1-0",
+  "title": "YSU 答辩主题 1.0.0：复刻预答辩 Beamer",
+  "description": "用 LaTeX 预答辩 Beamer 的现代藏青版式替换 ysu-theme，新增 FerroStage 兼容备注页，在 examples/beamer-thesis 全量复刻 88 页预答辩稿，并发布 1.0.0",
+  "status": "completed",
+  "dev_type": null,
+  "scope": null,
+  "package": null,
+  "priority": "P2",
+  "creator": "lyh",
+  "assignee": "lyh",
+  "createdAt": "2026-10-27",
+  "completedAt": "2026-10-27",
+  "branch": "dev",
+  "base_branch": "main",
+  "worktree_path": null,
+  "commit": null,
+  "pr_url": null,
+  "subtasks": [],
+  "children": [
+    "10-27-theme-core",
+    "10-27-speaker-notes",
+    "10-27-thesis-front-ch1-ch2",
+    "10-27-thesis-ch3-ch4",
+    "10-27-thesis-ch5-ch7-back",
+    "10-27-release-1-0-0"
+  ],
+  "parent": null,
+  "relatedFiles": [],
+  "notes": "",
+  "meta": {}
+}

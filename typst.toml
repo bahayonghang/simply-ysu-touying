@@ -1,11 +1,11 @@
 [package]
 name = "simply-ysu-touying"
-version = "0.2.0"
+version = "1.0.0"
 entrypoint = "lib.typ"
-compiler = "0.14.0"
+compiler = "0.15.1"
 authors = ["Geekyhang <@bahayonghang>"]
 license = "MIT AND MIT-0"
-description = "Yanshan University slides with Touying."
+description = "Yanshan University defense-style slides for Touying, with speaker notes."
 repository = "https://github.com/bahayonghang/simply-ysu-touying"
 keywords = [
   "slides",
