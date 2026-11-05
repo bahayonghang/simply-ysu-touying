@@ -11,7 +11,7 @@
 ```toml
 [package]
 name = "simply-ysu-touying"
-version = "0.2.0"
+version = "0.2.1"
 entrypoint = "lib.typ"
 compiler = "0.15.0"
 authors = ["Geekyhang <@bahayonghang>"]
@@ -52,7 +52,7 @@ thumbnail = "thumbnail.png"
 
 ## 2. Template Structure (`template/`)
 
-When a user initializes a presentation with `typst init @preview/simply-ysu-touying:0.2.0 my-slides`, Typst extracts `template/main.typ`.
+When a user initializes a presentation with `typst init @preview/simply-ysu-touying:0.2.1 my-slides`, Typst extracts `template/main.typ`.
 
 ### 2.1 File Contract
 
@@ -64,7 +64,7 @@ When a user initializes a presentation with `typst init @preview/simply-ysu-touy
   ```
 - The import must import the published package namespace:
   ```typ
-  #import "@preview/simply-ysu-touying:0.2.0": *
+  #import "@preview/simply-ysu-touying:0.2.1": *
   ```
 - Do not import local relative paths like `"../lib.typ"` inside `template/main.typ`, because end users run `template/main.typ` in isolated user workspaces.
 
