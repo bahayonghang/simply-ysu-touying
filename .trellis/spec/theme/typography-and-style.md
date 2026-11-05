@@ -22,6 +22,7 @@ Values follow the LaTeX defense deck (`ysu-defense-modern.sty`, theme v3).
 | `ysu-night` | `#0E1433` | Dark structure pages, screen frames |
 | `ysu-night-dot` | `#3A4370` | Screen-frame dots |
 | `ysu-kicker` / `ysu-faint` | white 78% / 55% over navy | Secondary text on navy |
+| `ysu-accent-on-dark` | `#F4B860` amber, 7.5:1 on navy | `hl` inside the chapter-opener question (0.2.1) |
 
 `mix(c, p, base: white)` is xcolor's `c!p!base`. Derive tints with it instead of new hex literals.
 

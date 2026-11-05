@@ -69,7 +69,11 @@ Pipeline into `touying-slides`:
 2. `config-common` — `slide-fn: slide`, `new-section-slide-fn: new-section-slide`, `receive-body-for-new-section-slide-fn: true`, `show-strong-with-alert: false`. Touying 0.8.0 defaults that body flag to `false`; the theme keeps it `true` so markup after `= 标题` (including `<ysu-opener>`) stays on the section slide. Do not set `breakable` or `notes-fn` here.
 3. `config-methods(init:)` — text 10pt ink, fonts, `lang: "zh"`, list markers, `show strong`, `show raw`, captions (see typography spec). `alert` = red bold.
 4. `config-colors` — maps tokens onto touying's names (`primary: ysu-navy`, `secondary: ysu-red`, …) for third-party touying components.
-5. `config-store` — `align`, `nav-labels`, `nav-full-labels`, `headline-width`, `slide-title`.
+5. `config-store` — `align`, `nav-labels`, `nav-full-labels`, `headline-width`, `opener`, `slide-title`.
+
+Bookmarks (0.2.1): `init` sets `heading(outlined: false, bookmarked: bookmarks != false)` and `show heading.where(level: 2): set heading(bookmarked: bookmarks == true)`. `bookmarked` defaults to `auto`, which follows `outlined`; without the explicit value every PDF loses its bookmarks. Touying keeps the original heading element on the slide, so a show rule that swaps the displayed heading cannot drop a bookmark. De-duplication therefore belongs to the source: continue a section with `#pagebreak()` instead of repeating `== 标题`.
+
+Opener style (0.2.1): `ysu-theme(opener: (..))` is merged over `_opener-defaults` (`question-label`, `question-size` 13pt, `question-weight`, `question-rule`, `question-max-lines` 2, `keywords-position` "right" | "below" | "auto"). `new-section-slide` reads it from `self.store.opener`.
 
 `supervisor`, `subject`, `school`, `stage`, `stage-en` are extra `config-info` keys read from `self.info`; all are optional.
 
@@ -94,8 +98,8 @@ Pipeline into `touying-slides`:
 | Function | Trigger | Notes |
 |---|---|---|
 | `title-slide(research-line: ((no:, icon:, label:), …))` | explicit | Left white / right night panel; 2×2 info grid at 16:9, stacked column at 4:3. Freezes the counter. |
-| `outline-slide(title:, groups: ((from:, to:, tags:, icons:),))` | explicit | One row per level-1 heading; `groups` highlight a chapter range; groups beyond the chapter count are dropped. |
-| `new-section-slide` | `= 标题` | Radial night ground, seal panel, big chapter number, question, keywords, outline from level-2 headings, bridge line, progress segments. Reads `<ysu-opener>`. |
+| `outline-slide(title:, groups: ((from:, to:, tags:, icons:),), row-pitch:, group-gap:, title-size:, number-size:, tag-size:)` | explicit | One row per level-1 heading; `groups` highlight a chapter range; groups beyond the chapter count are dropped. Rows are centred vertically; hairlines sit `row-pitch / 2` under a row, group grounds `row-pitch / 2 + 0.075cm` around it. `row-pitch: auto` = `min(1.2cm, (H − 2cm − gaps) / (n − 1))`. All titles share the smallest size that fits (≥ 85% of `title-size`). Defaults reproduce 0.2.0 pixel for pixel. |
+| `new-section-slide` | `= 标题` | Radial night ground, seal panel, big chapter number, question, keywords, outline from level-2 headings, bridge line, progress segments. Reads `<ysu-opener>` (incl. `question-tag`). The question block follows the measured title height; the contents list starts at `max(4.8cm, head bottom + 0.35cm)`. Two layout guards `panic` with the chapter number: question longer than `question-max-lines`, and contents ending below 7.3cm (7.85cm without a bridge). Inside the question, `strong` (so `hl`) uses `ysu-accent-on-dark`. |
 | `ending-slide(title:, kicker:, recap: (…), ..bodies)` | explicit | Recap cards (`title`, `chapter`, `icon`, `body`, `tags`) or, without recap, centered seal + wordmark. |
 
 Icons are **any content** the caller passes (`text(font: …, "◉")`, an image, a symbol). The package ships no icon dependency.
