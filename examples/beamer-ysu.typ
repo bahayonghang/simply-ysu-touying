@@ -35,6 +35,7 @@
 = 主题概览
 #chapter-opener(
   question: [如何让中文学术汇报既#hl[规范统一]，\ 又保留 Touying 的灵活性？],
+  question-tag: [设计目标],
   keywords: ([藏青配色], [结构页], [组件库]),
   icon: ic("▣"),
   bridge: [输入：Typst 源文件；输出：与 LaTeX 答辩稿#hl[同一版式]的 PDF],

@@ -104,9 +104,25 @@
 /// (原稿 \DefenseTakeaway).
 #let takeaway(body) = [#metadata(body) <ysu-takeaway>]
 
+// Defaults of `ysu-theme(opener: (..))`; user keys override these.
+#let _opener-defaults = (
+  question-label: [本章问题],
+  question-size: 13pt,
+  question-weight: "bold",
+  question-rule: true,
+  question-max-lines: 2,
+  keywords-position: "right",
+)
+
 /// Opener data of the chapter. Write it right after `= 标题`.
+///
+/// - question: the chapter question, at most `opener.question-max-lines`
+///   lines (see `ysu-theme(opener:)`); `hl[...]` turns amber on the opener.
+/// - question-tag: short tag after the question label, e.g. `[科学问题一]`,
+///   to tie the question to an item stated earlier.
 #let chapter-opener(
   question: none,
+  question-tag: none,
   keywords: (),
   keyword-icons: (),
   icon: none,
@@ -114,6 +130,7 @@
   bridge: none,
 ) = [#metadata((
     question: question,
+    question-tag: question-tag,
     keywords: keywords,
     keyword-icons: keyword-icons,
     icon: icon,
@@ -460,7 +477,23 @@ ote)
 
 /// Overall table of contents. `groups` highlights consecutive core chapters:
 /// `((from: 3, to: 5, tags: ([..], ..), icons: (..)),)`.
-#let outline-slide(config: (:), title: [目#h(0.2em)录], groups: (), note: none) = touying-slide-wrapper(self => {
+///
+/// Style (defaults are the 0.2.0 look): `row-pitch` (0.8cm; `auto` spreads
+/// the rows over the page, at most 1.2cm, keeping 1cm above and below),
+/// `group-gap` (0.2cm before and after a group), `title-size` (9.5pt; a
+/// title that would reach its tag shrinks, down to 85%), `number-size`
+/// (12pt), `tag-size` (5.7pt). Hairlines and group grounds follow the pitch.
+#let outline-slide(
+  config: (:),
+  title: [目#h(0.2em)录],
+  groups: (),
+  row-pitch: 0.8cm,
+  group-gap: 0.2cm,
+  title-size: 9.5pt,
+  number-size: 12pt,
+  tag-size: 5.7pt,
+  note: none,
+) = touying-slide-wrapper(self => {
   let self = _plain-page(self, config)
   let body = context {
     let W = page.width
@@ -470,11 +503,17 @@ ote)
     let n = chapters.len()
     let groups = groups.filter(g => g.to <= n)
     let group-of(i) = groups.position(g => g.from <= i and i <= g.to)
-    // Rows are 0.8 cm apart; a group adds 0.2 cm before and after itself.
+    // A group adds `group-gap` before and after itself.
     let gaps(i) = groups.filter(g => i >= g.from and g.from > 1).len() + groups.filter(g => i > g.to).len()
-    let total = (n - 1) * 0.8cm + gaps(n) * 0.2cm
+    let pitch = if row-pitch == auto {
+      if n < 2 { 0.8cm } else { calc.min(1.2cm, (H - 2cm - gaps(n) * group-gap) / (n - 1)) }
+    } else { row-pitch }
+    let total = (n - 1) * pitch + gaps(n) * group-gap
     let y-top = (H - total) / 2
-    let row-y(i) = y-top + (i - 1) * 0.8cm + gaps(i) * 0.2cm
+    let row-y(i) = y-top + (i - 1) * pitch + gaps(i) * group-gap
+    // Hairlines sit half a pitch under the row; group grounds 0.075 cm beyond.
+    let rule-dy = pitch / 2
+    let pad = pitch / 2 + 0.075cm
     let xs = (
       disc: 5.45cm * r,
       num: 5.85cm * r,
@@ -485,6 +524,33 @@ ote)
       g0: 5.05cm * r,
       g1: 15.1cm * r,
     )
+    // Chapter title at `title-size`, shrunk in 0.25pt steps (to 85%) to fit
+    // `room`; beyond that it overflows as in 0.2.0. All rows share the
+    // smallest fitted size, so a shrunk core chapter never looks smaller
+    // than the others (groups stand out by weight and red numbers).
+    let title-text(body, s, bold) = text(size: s, weight: if bold { "bold" } else { "regular" }, fill: ysu-ink, body)
+    let fit-size(body, room, bold) = {
+      let s = title-size
+      while s > title-size * 0.85 and measure(title-text(body, s, bold)).width > room { s -= 0.25pt }
+      s
+    }
+    let tag-box(body) = box(
+      fill: ysu-navy,
+      radius: 0.2cm,
+      inset: (x: 0.175cm, y: 0.07cm),
+      text(size: tag-size, weight: "bold", fill: white, body),
+    )
+    let room-of(i) = {
+      let gi = group-of(i)
+      let tags = if gi == none { () } else { groups.at(gi).at("tags", default: ()) }
+      let j = if gi == none { 0 } else { i - groups.at(gi).from }
+      if j < tags.len() { xs.tag - measure(tag-box(tags.at(j))).width - 0.3cm - xs.title } else {
+        xs.g1 - 0.2cm - xs.title
+      }
+    }
+    let sizes = range(1, n + 1).map(i => fit-size(chapters.at(i - 1).body, room-of(i), group-of(i) != none))
+    let shared = if n > 0 { calc.min(..sizes) } else { title-size }
+    let size-of(i) = shared
     // Left column.
     place(rect(width: 4.25cm * r, height: H, fill: _grad-diag(0%)))
     _at(0.6cm, 0.8cm, text(size: 21pt, weight: heavy, fill: white, title))
@@ -492,8 +558,8 @@ ote)
     _at(0.6cm, 8.35cm, anchor: "sw", logo(white: true, height: 0.95cm))
     // Group grounds.
     for g in groups {
-      let y0 = row-y(g.from) - 0.475cm
-      let y1 = row-y(g.to) + 0.475cm
+      let y0 = row-y(g.from) - pad
+      let y1 = row-y(g.to) + pad
       place(top + left, dx: xs.g0, dy: y0, rect(width: xs.g1 - xs.g0, height: y1 - y0, radius: 0.1cm, fill: ysu-tint))
     }
     for (k, ch) in chapters.enumerate() {
@@ -507,26 +573,19 @@ ote)
         if j < icons.len() and icons.at(j) != none {
           _at(xs.disc, y, anchor: "c", icon-disc(icons.at(j)))
         }
-        _at(xs.num, y, anchor: "w", text(size: 12pt, weight: "bold", fill: ysu-red, _two(i)))
-        _at(xs.title, y, anchor: "w", text(size: 9.5pt, weight: "bold", fill: ysu-ink, ch.body))
+        _at(xs.num, y, anchor: "w", text(size: number-size, weight: "bold", fill: ysu-red, _two(i)))
         let tags = g.at("tags", default: ())
-        if j < tags.len() {
-          _at(xs.tag, y, anchor: "e", box(
-            fill: ysu-navy,
-            radius: 0.2cm,
-            inset: (x: 0.175cm, y: 0.07cm),
-            text(size: 5.7pt, weight: "bold", fill: white, tags.at(j)),
-          ))
-        }
+        _at(xs.title, y, anchor: "w", title-text(ch.body, size-of(i), true))
+        if j < tags.len() { _at(xs.tag, y, anchor: "e", tag-box(tags.at(j))) }
         if i < g.to {
-          place(top + left, dx: xs.line0, dy: y + 0.4cm, line(length: xs.line1 - xs.line0, stroke: 0.4pt + ysu-line))
+          place(top + left, dx: xs.line0, dy: y + rule-dy, line(length: xs.line1 - xs.line0, stroke: 0.4pt + ysu-line))
         }
       } else {
-        _at(xs.num, y, anchor: "w", text(size: 12pt, weight: "bold", fill: ysu-base, _two(i)))
-        _at(xs.title, y, anchor: "w", text(size: 9.5pt, fill: ysu-ink, ch.body))
+        _at(xs.num, y, anchor: "w", text(size: number-size, weight: "bold", fill: ysu-base, _two(i)))
+        _at(xs.title, y, anchor: "w", title-text(ch.body, size-of(i), false))
         // Hairline under the row, except before a group and after the last row.
         if i < n and group-of(i + 1) == none {
-          place(top + left, dx: 5.35cm * r, dy: y + 0.4cm, line(
+          place(top + left, dx: 5.35cm * r, dy: y + rule-dy, line(
             length: xs.g1 - 5.35cm * r,
             stroke: 0.4pt + mix(ysu-line, 60%),
           ))
@@ -567,41 +626,87 @@ ote)
       fill: ysu-red,
     ))
     // Title, question and keywords.
+    let cfg = _opener-defaults + self.store.at("opener", default: (:))
     let title-text = text(size: 16pt, weight: heavy, fill: white, title)
     let title-w = if measure(title-text).width > 9.85cm * r { 10.5 * 16pt } else { text-w }
-    _at(block-x, 1.05cm, block(width: text-w, {
+    let question = get("question", none)
+    let q-tag = get("question-tag", none)
+    let keywords = get("keywords", ())
+    let pills = {
+      let icons = get("keyword-icons", ())
+      for (i, kw) in keywords.enumerate() {
+        if i > 0 { h(0.15cm) }
+        let ic = icons.at(i, default: none)
+        box(
+          stroke: 0.4pt + mix(white, 45%, base: ysu-navy),
+          radius: 0.25cm,
+          inset: (x: 0.2cm, y: 0.09cm),
+          text(size: 6.5pt, fill: ysu-kicker, { if ic != none { ic; h(0.12cm) }; kw }),
+        )
+      }
+    }
+    // Question text; `hl` turns amber. The rule sits 0.25 cm left of it.
+    let q-size = cfg.question-size * calc.max(r, 0.85)
+    let q-inset = if cfg.question-rule { 0.25cm } else { 0pt }
+    let q-text(body) = {
+      show strong: set text(fill: ysu-accent-on-dark)
+      text(size: q-size, weight: cfg.question-weight, fill: white, par(leading: 0.5em, body))
+    }
+    if question != none and cfg.question-max-lines != none {
+      let w = text-w - q-inset
+      let one = measure(block(width: w, q-text[字])).height
+      let max = measure(block(width: w, q-text(range(cfg.question-max-lines).map(_ => [字]).join(linebreak())))).height
+      if measure(block(width: w, q-text(question))).height > max + 0.5pt {
+        panic(
+          "chapter " + str(k) + " opener question exceeds " + str(cfg.question-max-lines)
+            + " lines; shorten it or raise ysu-theme(opener: (question-max-lines: ..))",
+        )
+      }
+    }
+    let head(pos) = block(width: text-w, {
       block(width: title-w, par(leading: 0.35em, title-text))
       v(0.25cm, weak: false)
       line(length: 100%, stroke: 0.4pt + mix(white, 30%, base: ysu-navy))
-      v(0.15cm, weak: false)
-      if get("question", none) != none or get("keywords", ()).len() > 0 {
-        grid(
-          columns: (auto, 1fr),
-          box(fill: ysu-red, radius: 1.5pt, inset: (x: 3pt, y: 1.6pt), text(
-            size: 5.7pt,
+      v(0.2cm, weak: false)
+      if question != none or keywords.len() > 0 {
+        block(width: 100%, {
+          box(fill: ysu-red, radius: 1.5pt, inset: (x: 4pt, y: 2.2pt), text(
+            size: 7.5pt,
             weight: "bold",
             fill: white,
-            tracking: 0.15em,
-            [本章问题],
-          )),
-          std.align(right, {
-            let icons = get("keyword-icons", ())
-            for (i, kw) in get("keywords", ()).enumerate() {
-              if i > 0 { h(0.15cm) }
-              let ic = icons.at(i, default: none)
-              box(
-                stroke: 0.4pt + mix(white, 50%, base: ysu-navy),
-                radius: 0.25cm,
-                inset: (x: 0.2cm, y: 0.09cm),
-                text(size: 6.5pt, fill: white, { if ic != none { ic; h(0.12cm) }; kw }),
-              )
-            }
-          }),
-        )
-        v(0.14cm, weak: false)
-        text(size: 9.5pt, fill: white, par(leading: 0.55em, get("question", none)))
+            tracking: 0.12em,
+            cfg.question-label,
+          ))
+          if q-tag != none {
+            h(0.2cm)
+            text(size: 7.5pt, weight: "bold", fill: ysu-kicker, tracking: 0.06em, q-tag)
+          }
+          if pos == "right" and keywords.len() > 0 { h(1fr); pills }
+        })
+        if question != none {
+          v(0.18cm, weak: false)
+          let body = q-text(question)
+          if cfg.question-rule {
+            block(stroke: (left: 2.5pt + ysu-red), inset: (left: q-inset - 2.5pt / 2, y: 1.5pt), body)
+          } else { body }
+        }
+        if pos == "below" and keywords.len() > 0 {
+          v(0.2cm, weak: false)
+          pills
+        }
       }
-    }))
+    })
+    // Contents start at 4.8 cm, or 0.35 cm under a taller head. "auto" puts
+    // the keywords below the question and moves them beside the label when
+    // that would push the contents down.
+    let head-y = 1.05cm
+    let gap = 0.35cm
+    let pos = if cfg.keywords-position == "auto" {
+      if head-y + measure(head("below")).height + gap <= 4.8cm { "below" } else { "right" }
+    } else { cfg.keywords-position }
+    let head-body = head(pos)
+    _at(block-x, head-y, head-body)
+    let list-y = calc.max(4.8cm, head-y + measure(head-body).height + gap)
     // Chapter contents.
     let rows = get("outline", auto)
     let rows = if rows == auto {
@@ -620,7 +725,15 @@ ote)
     } else { rows }
     let kicker(body) = text(size: 5.7pt, weight: "bold", fill: ysu-kicker, tracking: 0.15em, body)
     if rows.len() > 0 {
-      let list-y = 4.8cm
+      // The last row (0.44 cm pitch) must end above the bridge line at 7.55 cm.
+      let list-end = list-y + rows.len() * 0.44cm
+      let list-max = if get("bridge", none) != none { 7.3cm } else { 7.85cm }
+      if list-end > list-max {
+        panic(
+          "chapter " + str(k) + " opener: contents run into the bridge line; "
+            + "shorten the title or question, or pass fewer outline rows",
+        )
+      }
       place(top + left, dx: 0.85cm, dy: list-y - 0.25cm, line(length: W - 1.7cm, stroke: 0.4pt + mix(white, 18%, base: ysu-navy)))
       _at(0.85cm, list-y + 0.08cm, kicker[本章内容])
       let ic = get("icon", none)
@@ -750,6 +863,17 @@ ote)
 ///   `nav-labels`.
 /// - font: `(latin: (..), cjk: (..))` font families.
 /// - notes: add a notes page after every slide (see `note`).
+/// - bookmarks: PDF bookmarks. `true` adds chapters (level-1) and sections
+///   (level-2), `"chapters"` only chapters, `false` none. Continue a section
+///   on the next page with `#pagebreak()` rather than repeating `== 标题`,
+///   so each section gets one bookmark.
+/// - opener: chapter-opener style, merged over the defaults:
+///   `question-label` ([本章问题]), `question-size` (13pt),
+///   `question-weight` ("bold"), `question-rule` (true: red bar left of the
+///   question), `question-max-lines` (2; longer questions stop the build,
+///   `none` disables the check), `keywords-position` ("auto", "below" or
+///   "right"; default "right" beside the label as in 0.2.0, "below" under
+///   the question, "auto" below when the contents need not move down).
 #let ysu-theme(
   aspect-ratio: "16-9",
   align: horizon,
@@ -757,9 +881,19 @@ ote)
   nav-full-labels: auto,
   font: (latin: font-latin, cjk: font-cjk),
   notes: false,
+  bookmarks: true,
+  opener: (:),
   ..args,
   body,
 ) = {
+  assert(
+    bookmarks in (true, false, "chapters"),
+    message: "ysu-theme: bookmarks must be true, false or \"chapters\"",
+  )
+  assert(
+    opener.at("keywords-position", default: "right") in ("auto", "below", "right"),
+    message: "ysu-theme: opener.keywords-position must be \"auto\", \"below\" or \"right\"",
+  )
   let width = if aspect-ratio == "4-3" { 12cm } else { 16cm }
   show: touying-slides.with(
     config-page(
@@ -793,7 +927,11 @@ ote)
         )
         set par(justify: false, leading: 0.75em, spacing: 0.9em)
         set block(spacing: 0.8em)
-        set heading(outlined: false)
+        // Headings stay out of Typst outlines (the TOC page is drawn by the
+        // theme) but still become PDF bookmarks; `bookmarked` would otherwise
+        // follow `outlined` and drop every bookmark.
+        set heading(outlined: false, bookmarked: bookmarks != false)
+        show heading.where(level: 2): set heading(bookmarked: bookmarks == true)
         set list(
           marker: (
             box(baseline: -0.18em, rect(width: 0.36em, height: 0.36em, fill: ysu-navy)),
@@ -838,6 +976,7 @@ ote)
       nav-full-labels: nav-full-labels,
       headline-width: width - 2.4cm,
       notes: notes,
+      opener: opener,
       slide-title: auto,
     ),
     ..args,

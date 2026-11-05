@@ -22,6 +22,9 @@
 // Text on navy grounds.
 #let ysu-kicker = mix(white, 78%, base: ysu-navy)
 #let ysu-faint = mix(white, 55%, base: ysu-navy)
+// Emphasis on navy grounds (`hl` in the opener question): warm amber,
+// contrast 7.5:1 on ysu-navy and higher on ysu-night.
+#let ysu-accent-on-dark = rgb("#F4B860")
 
 // ---------------------------------------------------------------------------
 // Gradients: two stops, horizontal or 45 degrees.
