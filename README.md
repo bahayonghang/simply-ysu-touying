@@ -75,14 +75,16 @@ typst compile --root . --input ratio=4-3 examples/beamer-ysu.typ   # 4:3 pages
 | Call | Page |
 | --- | --- |
 | `title-slide(research-line: ((no:, icon:, label:), ...), note:)` | Cover: white left column with the title, navy right column with the stage tab and research lines |
-| `outline-slide(title:, groups: ((from:, to:, tags:, icons:),), note:)` | Contents: one row per level-1 heading; `groups` highlights consecutive core chapters |
-| `= Chapter` + `chapter-opener(question:, keywords:, icon:, outline:, bridge:)` | Chapter opener: number, title, question, keywords, the chapter's level-2 headings, and a bridge line |
+| `outline-slide(title:, groups: ((from:, to:, tags:, icons:),), row-pitch:, group-gap:, title-size:, number-size:, tag-size:, note:)` | Contents: one row per level-1 heading; `groups` highlights consecutive core chapters. Style defaults 0.8cm / 0.2cm / 9.5pt / 12pt / 5.7pt; `row-pitch: auto` spreads the rows over the page; all titles share one size, shrunk (to 85%) so the longest fits beside its tag |
+| `= Chapter` + `chapter-opener(question:, question-tag:, keywords:, icon:, outline:, bridge:)` | Chapter opener: number, title, the highlighted chapter question (with an optional tag such as `[Question 1]`), keywords, the chapter's level-2 headings, and a bridge line |
 | `== Slide title` | Content slide; the breadcrumb shows the chapter, the level-2 title and `sub` |
 | `sub[...]` / `takeaway[...]` | Breadcrumb subsection / headline sentence of the current slide |
 | `slide(composer: (1fr, 1fr))[...][...]` | Free slide with Touying columns; `#pause` works |
 | `ending-slide(title:, kicker:, recap: ((title:, chapter:, icon:, body:, tags:), ...), note:)` | Closing page; with `recap` it shows contribution cards |
 
-`ysu-theme` parameters: `aspect-ratio` (`"16-9"` or `"4-3"`), `align` (vertical alignment of slide bodies), `nav-labels` and `nav-full-labels` (footer and opener chapter labels; default: the level-1 headings), `font: (latin:, cjk:)`, `notes` (notes pages, see below).
+`ysu-theme` parameters: `aspect-ratio` (`"16-9"` or `"4-3"`), `align` (vertical alignment of slide bodies), `nav-labels` and `nav-full-labels` (footer and opener chapter labels; default: the level-1 headings), `font: (latin:, cjk:)`, `notes` (notes pages, see below), `bookmarks` (PDF bookmarks: `true` for chapters and sections, `"chapters"`, or `false`), `opener` (chapter-opener style: `question-label`, `question-size`, `question-weight`, `question-rule`, `question-max-lines`, `keywords-position` = `"right"` | `"below"` | `"auto"`).
+
+To continue a section on the next page, write `#pagebreak()` instead of repeating `== Section`; each section then gets one bookmark. A chapter question longer than `question-max-lines` (default 2) stops the build with the chapter number.
 
 ## Components
 

@@ -75,14 +75,16 @@ typst compile --root . --input ratio=4-3 examples/beamer-ysu.typ   # 4:3 版
 | 写法 | 页面 |
 | --- | --- |
 | `title-slide(research-line: ((no:, icon:, label:), ...), note:)` | 封面：左侧白底标题，右侧深色栏放阶段标签与研究主线 |
-| `outline-slide(title:, groups: ((from:, to:, tags:, icons:),), note:)` | 目录：每个一级标题一行，`groups` 高亮连续的核心章节 |
-| `= 章名` + `chapter-opener(question:, keywords:, icon:, outline:, bridge:)` | 章节扉页：章号、章名、本章问题、关键词、本章二级标题与承接行 |
+| `outline-slide(title:, groups: ((from:, to:, tags:, icons:),), row-pitch:, group-gap:, title-size:, number-size:, tag-size:, note:)` | 目录：每个一级标题一行，`groups` 高亮连续的核心章节。样式默认 0.8cm / 0.2cm / 9.5pt / 12pt / 5.7pt；`row-pitch: auto` 让各行铺满页面；所有章名共用一个字号，必要时缩小（最多到 85%），保证最长的章名不碰胶囊 |
+| `= 章名` + `chapter-opener(question:, question-tag:, keywords:, icon:, outline:, bridge:)` | 章节扉页：章号、章名、醒目的本章问题（可选标签，如 `[科学问题一]`）、关键词、本章二级标题与承接行 |
 | `== 页名` | 内容页；面包屑显示章、二级标题与 `sub` |
 | `sub[...]` / `takeaway[...]` | 当前页的面包屑小节 / 页眉结论句 |
 | `slide(composer: (1fr, 1fr))[...][...]` | 自由内容页，支持 Touying 分栏与 `#pause` |
 | `ending-slide(title:, kicker:, recap: ((title:, chapter:, icon:, body:, tags:), ...), note:)` | 致谢页；给出 `recap` 时显示贡献回顾卡 |
 
-`ysu-theme` 参数：`aspect-ratio`（`"16-9"` 或 `"4-3"`）、`align`（正文竖直对齐）、`nav-labels` 与 `nav-full-labels`（页脚与扉页的章节名，默认取一级标题）、`font: (latin:, cjk:)`、`notes`（备注页，见下文）。
+`ysu-theme` 参数：`aspect-ratio`（`"16-9"` 或 `"4-3"`）、`align`（正文竖直对齐）、`nav-labels` 与 `nav-full-labels`（页脚与扉页的章节名，默认取一级标题）、`font: (latin:, cjk:)`、`notes`（备注页，见下文）、`bookmarks`（PDF 书签：`true` 为章与节，`"chapters"` 只有章，`false` 不生成）、`opener`（扉页问题区样式：`question-label`、`question-size`、`question-weight`、`question-rule`、`question-max-lines`、`keywords-position` 取 `"right"`、`"below"` 或 `"auto"`）。
+
+同一节内容续到下一页时写 `#pagebreak()`，不要重复写 `== 节名`，这样每节只有一条书签。本章问题超过 `question-max-lines` 行（默认 2）时编译中止，并报出章号。
 
 ## 组件一览
 

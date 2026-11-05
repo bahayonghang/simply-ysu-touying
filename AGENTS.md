@@ -115,6 +115,8 @@ typst compile --package-path <local-package-root> my-slides/main.typ
   align: horizon,                // 正文竖直对齐
   nav-labels: ("背景", "方法", "总结"),  // 页脚章节导航短名（默认取一级标题）
   notes: sys.inputs.at("notes", default: "off") == "on",  // 备注页
+  bookmarks: true,               // PDF 书签：true（章与节）/ "chapters" / false
+  opener: (:),                   // 扉页问题区样式，键见 themes/ysu-beamer.typ 中 ysu-theme 的注释
   config-info(
     title: [报告标题],
     author: [报告人姓名],
@@ -131,8 +133,8 @@ typst compile --package-path <local-package-root> my-slides/main.typ
 ### 4.2 结构页、页面标记与组件
 
 - `#title-slide(research-line: ..., note: ...)`：封面，左白右深，阶段标签与研究主线。
-- `#outline-slide(groups: ..., note: ...)`：目录，一级标题自动成行，核心章节可分组高亮。
-- `= 一级标题` + `#chapter-opener(question:, keywords:, icon:, outline:, bridge:)`：章节扉页。
+- `#outline-slide(groups: ..., row-pitch:, group-gap:, title-size:, number-size:, tag-size:, note: ...)`：目录，一级标题自动成行，核心章节可分组高亮。样式参数默认为 0.2.0 外观；行间细线与分组底块随 `row-pitch` 换算；全部章名共用一个字号，最长者放不下时整体缩小（最多到 85%）。
+- `= 一级标题` + `#chapter-opener(question:, question-tag:, keywords:, icon:, outline:, bridge:)`：章节扉页。问句醒目显示（`hl` 为琥珀色 `ysu-accent-on-dark`），超过 `opener.question-max-lines` 行时编译中止。同一节续页写 `#pagebreak()`，不重复 `== 标题`，以免书签重复。
 - `== 二级标题`：内容页；`#sub[...]` 设面包屑小节，`#takeaway[...]` 设页眉结论句。
 - `#slide(composer: (1fr, 1fr))[...][...]`：自由内容页，支持 `#pause`。
 - `#ending-slide(recap: ((title:, chapter:, icon:, body:, tags:), ...), note: ...)`：致谢页（回顾卡）。
