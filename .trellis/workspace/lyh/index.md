@@ -8,8 +8,8 @@
 
 <!-- @@@auto:current-status -->
 - **Active File**: `journal-1.md`
-- **Total Sessions**: 8
-- **Last Active**: 2026-10-27
+- **Total Sessions**: 9
+- **Last Active**: 2026-11-04
 <!-- @@@/auto:current-status -->
 
 ---
@@ -19,7 +19,7 @@
 <!-- @@@auto:active-documents -->
 | File | Lines | Status |
 |------|-------|--------|
-| `journal-1.md` | ~245 | Active |
+| `journal-1.md` | ~280 | Active |
 <!-- @@@/auto:active-documents -->
 
 ---
@@ -29,6 +29,7 @@
 <!-- @@@auto:session-history -->
 | # | Date | Title | Commits | Branch |
 |---|------|-------|---------|--------|
+| 9 | 2026-11-04 | 升级 Touying 到 0.8.0 | `ab818c8`, `cf39230` | `dev` |
 | 8 | 2026-10-27 | YSU 答辩主题 1.0.0 父任务收尾 | `ae66df1` | `dev` |
 | 7 | 2026-10-27 | 发布 1.0.0：版本同步与文档 | `83dbd88` | `dev` |
 | 6 | 2026-10-27 | 复刻三：第 5-7 章与致谢 | `d5a3532`, `b6ca8b3` | `dev` |

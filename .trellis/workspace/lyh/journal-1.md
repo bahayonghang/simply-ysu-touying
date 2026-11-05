@@ -243,3 +243,38 @@ beamer-thesis 复刻 P01–P18（问题图、路线图、变量表、公式映�
 ### Next Steps
 
 - 用户确认：0.14 基线、XeLaTeX 耗时、水印位图、对外发布
+
+
+## Session 9: 升级 Touying 到 0.8.0
+<!-- trellis-session: v=2 fp=c8c4cab121b99832 -->
+
+**Date**: 2026-11-04
+**Task**: 升级 Touying 到 0.8.0
+**Branch**: `dev`
+
+### Summary
+
+依赖升到 Touying 0.8.0，扉页继续接收章节正文，包版本回到 0.2.0，验收后归档。
+
+### Main Changes
+
+- 产品代码、文档和规范里的 Touying 依赖改为 0.8.0
+- 显式保持 receive-body-for-new-section-slide-fn 为 true，扉页继续收到一级标题后的正文
+- 写入迁移调研、需求、设计与执行计划
+
+### Git Commits
+
+| Hash | Message |
+|------|---------|
+| `ab818c8` | build(package): 📦 升级 Touying 至 0.8.0 并改回包版本 0.2.0 |
+| `cf39230` | docs(task): 📝 记录 Touying 0.8.0 升级任务 |
+
+### Testing
+
+- [OK] beamer-ysu 16:9 与 4:3 各 21 页
+- [OK] 备注版 19 帧，页标签检查通过
+- [OK] 答辩稿投屏 88 页、备注 88 帧，页标签检查通过
+
+### Status
+
+[OK] **Completed**
