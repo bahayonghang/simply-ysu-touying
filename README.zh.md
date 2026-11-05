@@ -2,7 +2,7 @@
 
 [[English]](./README.md)
 
-这是基于 [Touying](https://touying-typ.github.io/touying/zh/) 的燕山大学 Typst 幻灯片主题。0.2.0 版按博士学位论文答辩稿的版式重写：藏青配色，页眉用面包屑加结论句，带章节扉页、页脚章节导航，以及组织“问题—方法—结论”页面的组件库。演讲备注可编译为独立备注页，供演讲者工具使用。
+这是基于 [Touying](https://touying-typ.github.io/touying/zh/) 的燕山大学 Typst 幻灯片主题。0.2.1 版按博士学位论文答辩稿的版式重写：藏青配色，页眉用面包屑加结论句，带章节扉页、页脚章节导航，以及组织“问题—方法—结论”页面的组件库。演讲备注可编译为独立备注页，供演讲者工具使用。
 
 | 封面 | 章节扉页 | 内容页 |
 | --- | --- | --- |
@@ -16,7 +16,7 @@
 ## 快速开始
 
 ```powershell
-typst init @preview/simply-ysu-touying:0.2.0 my-slides
+typst init @preview/simply-ysu-touying:0.2.1 my-slides
 Set-Location my-slides
 typst compile main.typ
 ```
@@ -24,7 +24,7 @@ typst compile main.typ
 最小示例：
 
 ```typ
-#import "@preview/simply-ysu-touying:0.2.0": *
+#import "@preview/simply-ysu-touying:0.2.1": *
 
 #show: ysu-theme.with(
   aspect-ratio: "16-9",                 // 或 "4-3"

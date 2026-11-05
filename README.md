@@ -2,7 +2,7 @@
 
 [[中文]](https://github.com/bahayonghang/simply-ysu-touying/blob/4bd7c6513552e5e74b40c7ad1332a3227c9803ef/README.zh.md)
 
-A Yanshan University slide theme for [Touying](https://touying-typ.github.io/touying/zh/) and Typst. Version 0.2.0 follows the layout of a doctoral defense deck: a navy palette, a breadcrumb headline that carries the slide's conclusion, chapter openers, a footer chapter navigation, and a component library for problem–method–conclusion pages. Speaker notes can be compiled into separate notes pages for presenter tools.
+A Yanshan University slide theme for [Touying](https://touying-typ.github.io/touying/zh/) and Typst. Version 0.2.1 follows the layout of a doctoral defense deck: a navy palette, a breadcrumb headline that carries the slide's conclusion, chapter openers, a footer chapter navigation, and a component library for problem–method–conclusion pages. Speaker notes can be compiled into separate notes pages for presenter tools.
 
 | Cover | Chapter opener | Content slide |
 | --- | --- | --- |
@@ -16,7 +16,7 @@ A Yanshan University slide theme for [Touying](https://touying-typ.github.io/tou
 ## Quick start
 
 ```bash
-typst init @preview/simply-ysu-touying:0.2.0 my-slides
+typst init @preview/simply-ysu-touying:0.2.1 my-slides
 cd my-slides
 typst compile main.typ
 ```
@@ -24,7 +24,7 @@ typst compile main.typ
 A minimal deck:
 
 ```typ
-#import "@preview/simply-ysu-touying:0.2.0": *
+#import "@preview/simply-ysu-touying:0.2.1": *
 
 #show: ysu-theme.with(
   aspect-ratio: "16-9",                 // or "4-3"

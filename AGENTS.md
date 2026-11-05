@@ -26,7 +26,7 @@ Managed by Trellis. Edits outside this block are preserved; edits inside may be 
 
 - **Typst Universe 包名**：`simply-ysu-touying`
 - **代码仓库**：`touying-theme-ysu`
-- **当前版本**：`0.2.0`（参见 `typst.toml`）
+- **当前版本**：`0.2.1`（参见 `typst.toml`）
 - **核心定位**：提供开箱即用、视觉规范且符合中文学术习惯的答辩式幻灯片模板、组件库与演讲备注。
 
 ---
@@ -97,7 +97,7 @@ typst compile --root . --input notes=on examples/beamer-ysu.typ .tmp/notes.pdf
 python -I examples/check-page-labels.py .tmp/notes.pdf --expect-notes
 
 # 3. 模拟 Typst Universe 本地包验证（完整脚本见 docs/typst-packages-pr-structure.md）
-typst init --package-path <local-package-root> @preview/simply-ysu-touying:0.2.0 my-slides
+typst init --package-path <local-package-root> @preview/simply-ysu-touying:0.2.1 my-slides
 typst compile --package-path <local-package-root> my-slides/main.typ
 ```
 
@@ -108,7 +108,7 @@ typst compile --package-path <local-package-root> my-slides/main.typ
 ### 4.1 主题初始化 (`ysu-theme`)
 
 ```typ
-#import "@preview/simply-ysu-touying:0.2.0": *
+#import "@preview/simply-ysu-touying:0.2.1": *
 
 #show: ysu-theme.with(
   aspect-ratio: "16-9",          // 16cm×9cm；"4-3" 为 12cm×9cm
@@ -154,7 +154,7 @@ typst compile --package-path <local-package-root> my-slides/main.typ
    - `examples/beamer-thesis/`（答辩稿复刻，含论文图片）不入库、不发布。
 3. **版本号同步一致性**:
    - 当发布新版本时，须同步核对并更新：`typst.toml` 的 `version`、`template/main.typ` 中的包引用版本、`README.md` / `README.zh.md` 中的命令示例、`docs/typst-packages-pr-structure.md` 以及本文件。
-   - 当前版本为 `0.2.0`。0.x 阶段的破坏性改动升次版本；到达 `1.0.0` 后，公开 API（`ysu-theme` 参数、结构页函数、组件名）按 semver 管理，破坏性改动升主版本。
+   - 当前版本为 `0.2.1`。0.x 阶段的破坏性改动升次版本；到达 `1.0.0` 后，公开 API（`ysu-theme` 参数、结构页函数、组件名）按 semver 管理，破坏性改动升主版本。
 4. **编译与样式安全性**:
    - 涉及 `themes/*.typ` 的改动，必须使用 `typst compile --root . examples/beamer-ysu.typ`（16:9 与 4:3）进行端到端回归验证，确认未破坏分页、页眉页脚、章节导航、目录抓取与备注页。
    - 函数参数不要取名 `center`、`top`、`left` 等对齐常量或 `v` 等内置函数名；若无法避免，在函数体内用 `std.center` 等访问内置值。
