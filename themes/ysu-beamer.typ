@@ -104,6 +104,10 @@
 /// (原稿 \DefenseTakeaway).
 #let takeaway(body) = [#metadata(body) <ysu-takeaway>]
 
+/// Center this page's conclusion headline. Pages without the marker stay
+/// left-aligned.
+#let headline-center() = [#metadata(true) <ysu-headline-center>]
+
 // Defaults of `ysu-theme(opener: (..))`; user keys override these.
 #let _opener-defaults = (
   question-label: [本章问题],
@@ -267,12 +271,19 @@ ote)
   }
   _at(W - mx, 0.33cm, anchor: "e", seal(height: 0.42cm))
   if parts.head != none {
-    place(top + left, dx: mx, dy: 0.60cm, block(width: self.store.headline-width, text(
-      size: 14pt,
-      weight: "bold",
-      fill: ysu-navy,
-      par(leading: 0.42em, parts.head),
-    )))
+    let centered = _on-page(<ysu-headline-center>) == true
+    // The headline measure is inset from the right so a left-aligned line
+    // stays clear of the seal column. A centred line uses the two equal margins.
+    let head-w = if centered { W - 2 * mx } else { self.store.headline-width }
+    place(top + left, dx: mx, dy: 0.60cm, block(width: head-w, {
+      set align(if centered { center } else { left })
+      text(
+        size: 14pt,
+        weight: "bold",
+        fill: ysu-navy,
+        par(leading: 0.42em, parts.head),
+      )
+    }))
   }
   place(top + left, dx: mx, dy: rule-y, line(length: W - 2 * mx, stroke: 0.4pt + ysu-line))
   place(top + left, dx: mx, dy: rule-y - 1.5pt, rect(width: 0.9cm, height: 3pt, fill: ysu-red))
