@@ -678,7 +678,7 @@ ote)
       }
     }
     let head(pos) = block(width: text-w, {
-      block(width: title-w, par(leading: 0.35em, title-text))
+      block(width: title-w, par(leading: 0.50em, title-text))
       v(0.25cm, weak: false)
       line(length: 100%, stroke: 0.4pt + mix(white, 30%, base: ysu-navy))
       v(0.2cm, weak: false)
@@ -791,13 +791,14 @@ ote)
 })
 
 /// Closing page. With `recap` (three `(title:, chapter:, icon:, body:,
-/// tags:)` entries) it shows the contribution cards; otherwise `title` and
-/// the body sit under the navy bar.
+/// tags:)` entries) it shows the contribution cards; optional `footer-bar`
+/// sits under the recap row; otherwise `title` and the body sit under the navy bar.
 #let ending-slide(
   config: (:),
   title: [敬请各位老师批评指正],
   kicker: [THANK YOU],
   recap: (),
+  footer-bar: none,
   note: none,
   ..bodies,
 ) = touying-slide-wrapper(self => {
@@ -814,35 +815,54 @@ ote)
     _at(W - 0.9cm, 2.05cm, anchor: "se", logo(white: true, height: 0.65cm))
     if recap.len() > 0 {
       let n = recap.len()
-      let gap = 0.5cm
+      let gap = 0.42cm
       let cw = (W - 1.8cm - (n - 1) * gap) / n
+      let card-y = 2.95cm
+      let card-h = if footer-bar != none { 3.68cm } else { 4.55cm }
+      let raw-footers = recap.map(item => {
+        let tags = item.at("tags", default: ())
+        if tags.len() > 0 {
+          block(width: 100%, {
+            set par(leading: 0.45em)
+            tags.map(t => badge(
+              variant: "outline",
+              tone: "navy",
+              height: auto,
+              size: 7.4pt,
+              inset: (x: 4.5pt, y: 2pt),
+              t,
+            )).join(h(3pt))
+          })
+        } else { none }
+      })
+      let footer-h = calc.max(0pt, ..raw-footers.map(f => if f == none { 0pt } else {
+        measure(block(width: cw - 14pt, f)).height
+      }))
       for (i, item) in recap.enumerate() {
         let x = 0.9cm + i * (cw + gap)
-        place(top + left, dx: x, dy: 3.05cm, title-box(
+        let f = raw-footers.at(i)
+        let footer = if f != none {
+          block(width: 100%, height: footer-h, std.align(left + horizon, f))
+        } else { none }
+        place(top + left, dx: x, dy: card-y, panel-card(
           icon: item.at("icon", default: none),
           title: item.title,
           aside: item.at("chapter", default: none),
           width: cw,
-          height: 4.35cm,
-          body-size: 10.5pt,
+          height: card-h,
+          body-fill: white,
+          body-inset: (x: 8pt, y: 7pt),
+          footer-inset: (x: 7pt, y: 5pt),
+          footer: footer,
           {
-            set par(leading: 0.62em)
+            set par(leading: 0.58em)
             show strong: set text(fill: ysu-navy)
-            item.body
-            let tags = item.at("tags", default: ())
-            if tags.len() > 0 {
-              place(bottom + left, dy: 0.05cm, block(width: 100%, {
-                set par(leading: 0.42em)
-                tags.map(t => box(fill: mix(ysu-navy, 12%), radius: 2pt, inset: (x: 3.5pt, y: 2pt), text(
-                  size: 8pt,
-                  weight: "bold",
-                  fill: ysu-navy,
-                  t,
-                ))).join(h(3pt))
-              }))
-            }
+            text(size: 9.5pt, fill: mix(ysu-ink, 88%), item.body)
           },
         ))
+      }
+      if footer-bar != none {
+        place(top + left, dx: 0.9cm, dy: card-y + card-h + 0.24cm, block(width: W - 1.8cm, footer-bar))
       }
     } else {
       let body = if body != none { body } else {

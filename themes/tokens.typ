@@ -27,6 +27,20 @@
 #let ysu-accent-on-dark = rgb("#F4B860")
 
 // ---------------------------------------------------------------------------
+// Surface tints, geometry and accent tokens (v3 modern cards)
+// ---------------------------------------------------------------------------
+#let ysu-radius-sm = 2pt
+#let ysu-radius-md = 2.5pt
+#let ysu-border = 0.5pt
+#let ysu-accent-bar = 2.5pt
+
+#let ysu-red-tint = mix(ysu-red, 2.5%)
+#let ysu-red-soft = mix(ysu-red, 9%)
+#let ysu-red-border = mix(ysu-red, 25%)
+#let ysu-navy-chip = mix(ysu-navy, 8%)
+#let ysu-navy-soft = mix(ysu-navy, 12%)
+
+// ---------------------------------------------------------------------------
 // Gradients: two stops, horizontal or 45 degrees.
 // ---------------------------------------------------------------------------
 #let grad-head = gradient.linear(ysu-navy, mix(ysu-navy, 80%, base: ysu-tint))

@@ -51,6 +51,53 @@
   ))
 }
 
+/// Tiered badge: "outline" (white ground + hairline), "soft" (tinted ground
+/// + hairline), or "solid" (filled ground, white text); `tone` in "navy" |
+/// "red" | "muted". Complements `tag` without altering its defaults.
+#let badge(
+  variant: "soft",
+  tone: "navy",
+  height: 12pt,
+  width: auto,
+  size: 7.5pt,
+  inset: (x: 5pt),
+  weight: auto,
+  body,
+) = {
+  let (fill, stroke, fg, wt) = if variant == "solid" {
+    let c = if tone == "red" { ysu-red } else if tone == "muted" { ysu-muted } else { ysu-navy }
+    (c, ysu-border + c, white, "bold")
+  } else if variant == "outline" {
+    if tone == "red" {
+      (white, ysu-border + ysu-red-border, ysu-red, "bold")
+    } else if tone == "muted" {
+      (white, 0.45pt + ysu-line, ysu-muted, "bold")
+    } else {
+      (white, ysu-border + mix(ysu-navy, 38%), ysu-navy, "bold")
+    }
+  } else {
+    if tone == "red" {
+      (ysu-red-soft, ysu-border + ysu-red-border, ysu-red, "bold")
+    } else if tone == "muted" {
+      (ysu-tint, 0.45pt + ysu-line, ysu-muted, "medium")
+    } else {
+      (mix(ysu-navy, 13%), 0.55pt + mix(ysu-navy, 45%), ysu-navy, "bold")
+    }
+  }
+  let final-weight = if weight == auto { wt } else { weight }
+  let label = text(size: size, weight: final-weight, fill: fg, body)
+  let inner = if width == auto and height == auto { label } else { std.align(center + horizon, label) }
+  box(
+    width: width,
+    height: height,
+    fill: fill,
+    stroke: stroke,
+    radius: ysu-radius-sm,
+    inset: inset,
+    inner,
+  )
+}
+
 /// White outline capsule on navy grounds.
 #let pill(body) = box(stroke: 0.6pt + white, radius: 0.2cm, inset: (x: 6pt, y: 2pt), text(
   size: 8pt,
@@ -280,15 +327,264 @@
   }
 }
 
+/// Lightweight solid-line stealth arrow for grid cells and chip chains.
+/// Keeps the hollow text-bearing `block-arrow` intact.
+#let flow-arrow(len: 0.3cm, dir: "right", color: ysu-navy) = {
+  let head = 1.4mm
+  let half = 0.8mm
+  let st = 0.8pt + color
+  if dir == "right" {
+    block(width: len, height: 2 * half, spacing: 0pt, {
+      place(line(start: (0pt, half), end: (len - 0.3mm, half), stroke: st))
+      place(dx: len - head, polygon(fill: color, (0mm, 0mm), (head, half), (0mm, 2 * half)))
+    })
+  } else {
+    block(width: 2 * half, height: len, spacing: 0pt, {
+      place(line(start: (half, 0pt), end: (half, len - 0.3mm), stroke: st))
+      place(dy: len - head, polygon(fill: color, (0mm, 0mm), (2 * half, 0mm), (half, head)))
+    })
+  }
+}
+
+/// Chain of 16 pt rounded chips connected by `+` or `flow-arrow`. `boxed` is
+/// an optional 0-based index highlighted in solid YSU red.
+#let chip-chain(items, kind: "plus", boxed: none, height: 16pt, size: 8pt) = {
+  let chip(i, it) = {
+    let focus = i == boxed
+    box(
+      height: height,
+      fill: if focus { ysu-red } else { ysu-navy-chip },
+      stroke: if focus { 0.55pt + ysu-red } else { 0.55pt + mix(ysu-navy, 36%) },
+      radius: ysu-radius-sm,
+      inset: (x: 5.5pt),
+      std.align(center + horizon, box(text(
+        size: size,
+        weight: "bold",
+        fill: if focus { white } else { ysu-navy },
+        it,
+      ))),
+    )
+  }
+  let sep = if kind == "arrow" {
+    flow-arrow(len: 0.40cm)
+  } else {
+    text(size: 9pt, weight: "bold", fill: ysu-navy)[+]
+  }
+  let cells = ()
+  for (i, it) in items.enumerate() {
+    cells.push(chip(i, it))
+    if i < items.len() - 1 { cells.push(sep) }
+  }
+  grid(
+    columns: (auto,) * cells.len(),
+    column-gutter: if kind == "arrow" { 3.5pt } else { 5.5pt },
+    align: center + horizon,
+    ..cells,
+  )
+}
+
+/// Modern card with a flush full-height 2.5 pt left accent bar, 0.5 pt border
+/// and 2 pt radius. `tone`: "navy" | "red" | "muted".
+#let accent-card(
+  tone: "navy",
+  fill: auto,
+  border: auto,
+  accent: auto,
+  width: 100%,
+  height: auto,
+  radius: ysu-radius-sm,
+  inset: (left: 9pt, right: 7pt, y: 4.5pt),
+  body,
+) = {
+  let (def-fill, def-border, def-accent) = if tone == "red" {
+    (ysu-red-tint, ysu-red-border, ysu-red)
+  } else if tone == "muted" {
+    (white, ysu-line, ysu-base)
+  } else {
+    (white, ysu-line, ysu-navy)
+  }
+  let final-fill = if fill == auto { def-fill } else { fill }
+  let final-border = if border == auto { def-border } else { border }
+  let final-accent = if accent == auto { def-accent } else { accent }
+  block(
+    width: width,
+    height: height,
+    breakable: false,
+    fill: final-fill,
+    stroke: ysu-border + final-border,
+    radius: radius,
+    clip: true,
+    {
+      place(top + left, rect(width: ysu-accent-bar, height: 100%, fill: final-accent))
+      pad(..inset, body)
+    },
+  )
+}
+
+/// Top guidance strip built on `accent-card`: tint ground, 2.5 pt left bar,
+/// bold terms highlighted in navy.
+#let lead-strip(
+  accent: ysu-navy,
+  fill: ysu-tint,
+  border: ysu-line,
+  size: 8.6pt,
+  inset: (left: 10pt, right: 8pt, y: 4.5pt),
+  body,
+) = accent-card(
+  accent: accent,
+  fill: fill,
+  border: border,
+  inset: inset,
+  {
+    show strong: set text(fill: ysu-navy)
+    text(size: size, fill: ysu-ink, body)
+  },
+)
+
+/// Numbered white sub-cards (`01`, `02`, ...) with soft navy number badges
+/// and 0.45 pt hairline borders.
+#let numbered-cards(
+  items,
+  start: 1,
+  spacing: 5.5pt,
+  equal-height: false,
+  text-size: 8pt,
+  leading: 0.46em,
+  inset: (x: 6pt, y: 4.5pt),
+) = {
+  let cards = items.enumerate().map(((i, it)) => block(
+    width: 100%,
+    height: if equal-height { 100% } else { auto },
+    breakable: false,
+    fill: white,
+    stroke: 0.45pt + ysu-line,
+    radius: ysu-radius-sm,
+    inset: inset,
+    std.align(left + horizon, grid(
+      columns: (0.48cm, 1fr),
+      column-gutter: 4.5pt,
+      align: (center + horizon, left + horizon),
+      box(
+        width: 0.48cm,
+        height: 0.42cm,
+        fill: ysu-navy-soft,
+        radius: ysu-radius-sm,
+        std.align(center + horizon, text(
+          size: 7.3pt,
+          weight: "bold",
+          fill: ysu-navy,
+          number-width: "tabular",
+          _two(start + i),
+        )),
+      ),
+      text(size: text-size, fill: mix(ysu-ink, 86%), par(leading: leading, it)),
+    )),
+  ))
+  if equal-height {
+    grid(
+      rows: (1fr,) * cards.len(),
+      row-gutter: spacing,
+      ..cards,
+    )
+  } else {
+    stack(dir: ttb, spacing: spacing, ..cards)
+  }
+}
+
+/// Dual-zone panel card with integrated gradient header (`grad-head`),
+/// 0.5 pt hairline frame and 2.5 pt radius.
+#let panel-card(
+  kicker: none,
+  icon: none,
+  title: none,
+  aside: none,
+  middle: none,
+  footer: none,
+  width: 100%,
+  height: auto,
+  body-fill: ysu-tint,
+  body-inset: (x: 7pt, y: 7pt),
+  middle-inset: (x: 6pt, top: 6.5pt, bottom: 6pt),
+  footer-inset: (x: 7pt, y: 5pt),
+  body,
+) = {
+  let header = block(
+    width: 100%,
+    fill: grad-head,
+    inset: if kicker != none { (x: 9pt, top: 5pt, bottom: 6pt) } else { (x: 8pt, y: 5.5pt) },
+    if kicker != none {
+      stack(
+        spacing: 3pt,
+        grid(
+          columns: (1fr, auto),
+          align: (left + horizon, right + horizon),
+          text(size: 7.4pt, weight: "bold", fill: ysu-kicker, kicker),
+          if icon != none { text(size: 8.2pt, fill: ysu-kicker, icon) } else if aside != none {
+            text(size: 7.4pt, fill: ysu-kicker, aside)
+          },
+        ),
+        text(size: 9.2pt, weight: "bold", fill: white, title),
+      )
+    } else {
+      grid(
+        columns: (1fr, auto),
+        column-gutter: 4pt,
+        align: (left + horizon, right + horizon),
+        text(size: 9.8pt, weight: "bold", fill: white, {
+          if icon != none { icon; h(0.45em) }
+          title
+        }),
+        if aside != none { text(size: 8.2pt, weight: "bold", fill: ysu-kicker, aside) },
+      )
+    },
+  )
+  let rows = (auto,)
+  let cells = (header,)
+  if middle != none {
+    rows.push(auto)
+    cells.push(block(
+      width: 100%,
+      fill: white,
+      stroke: (bottom: ysu-border + ysu-line),
+      inset: middle-inset,
+      middle,
+    ))
+  }
+  rows.push(if height == auto { auto } else { 1fr })
+  cells.push(block(
+    width: 100%,
+    height: if height == auto { auto } else { 100% },
+    fill: body-fill,
+    inset: body-inset,
+    body,
+  ))
+  if footer != none {
+    rows.push(auto)
+    cells.push(block(
+      width: 100%,
+      fill: ysu-tint,
+      stroke: (top: ysu-border + ysu-line),
+      inset: footer-inset,
+      footer,
+    ))
+  }
+  block(
+    width: width,
+    height: height,
+    breakable: false,
+    fill: body-fill,
+    stroke: ysu-border + ysu-line,
+    radius: ysu-radius-md,
+    clip: true,
+    grid(rows: rows, ..cells),
+  )
+}
+
 /// H: red-framed sentence. White ground, red border, a red label at the
 /// left, navy text. At most one per page, never with a conclusion bar.
-#let red-frame(label: none, center: false, body) = block(
-  width: 100%,
-  fill: white,
-  stroke: 0.8pt + ysu-red,
-  radius: 3pt,
-  inset: (x: 6pt, y: 5pt),
-  {
+/// `soft: true` renders a restrained 2.5% red-tint card with a 2.5 pt left bar.
+#let red-frame(label: none, center: false, soft: false, body) = {
+  let inner = {
     set text(fill: ysu-navy)
     if center {
       std.align(std.center, { if label != none { edge-label(red: true, label); h(0.5em) }; body })
@@ -300,8 +596,24 @@
         if label != none { edge-label(red: true, label) }, body,
       )
     }
-  },
-)
+  }
+  if soft {
+    accent-card(
+      tone: "red",
+      inset: (left: 9pt, right: 7pt, y: 4.5pt),
+      inner,
+    )
+  } else {
+    block(
+      width: 100%,
+      fill: white,
+      stroke: 0.8pt + ysu-red,
+      radius: 3pt,
+      inset: (x: 6pt, y: 5pt),
+      inner,
+    )
+  }
+}
 
 /// A: card with a coloured bar on its top edge.
 #let card(accent: ysu-navy, fill: white, inset: (x: 6pt, top: 6.5pt, bottom: 5pt), body) = block(
