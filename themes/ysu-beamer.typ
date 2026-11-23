@@ -214,7 +214,10 @@ ote)
       // The notes page shares the label number of the slide before it.
       #counter(page).update(n => n - 1)
       #set text(size: 18pt, fill: rgb("#E6DFD8"))
-      #set par(justify: false, first-line-indent: 0pt, leading: 6pt, spacing: 0.4em)
+      // A blank line in the note is one paragraph. `spacing` is the whole
+      // gap, so 0.4em disappears into the 6pt leading. One extra line of air
+      // keeps the break visible on the notes page.
+      #set par(justify: false, first-line-indent: 0pt, leading: 6pt, spacing: 1em + 6pt)
       #show strong: set text(fill: rgb("#FAF9F5"))
       #context _note-record(kind, title)
       #metadata(none) <ysu-note-tail>
